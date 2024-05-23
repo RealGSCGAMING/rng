@@ -46,6 +46,8 @@
         border: 2px solid black;
         cursor: pointer;
         margin-top: 25px;
+        transition: background-color 0.3s;
+  transition: transform 0.1s
       }
 
       #autoButton {
@@ -55,9 +57,11 @@
       }
 
       #rollButton:hover,
-      #autoButton:hover {
-        background-color: var(--hover-background);
-      }
+#autoButton:hover {
+  background-color: var(--hover-background);
+  transform: scale(1.05);
+}
+
 
       #resultBox {
         padding: 20px;
@@ -66,7 +70,7 @@
         font-size: 1.5em;
         border: 2px solid;
         margin-top: 20px;
-        transition: background-color 0.3s, transform 0.1s;
+        transition: background-color 0.3s, transform 0.2s;
       }
 
       #inventoryPanel {
@@ -83,11 +87,13 @@
   padding: 10px;
   border-radius: 10px;
   transition: background-color 0.3s;
+  transition: transform 0.1s
 }
 
       .inventoryItem:hover {
-        background-color: var(--hover-background);
-      }
+  background-color: var(--hover-background);
+  transform: scale(1.05);
+}
 
       .common {
         border: 2px solid #6c757d;
