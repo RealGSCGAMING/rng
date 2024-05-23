@@ -205,6 +205,32 @@
       .ethereal {
         border: 2px solid #483d8b;
       }
+      .confetti {
+  position: absolute;
+  width: 20px; /* Increase width */
+  height: 40px; /* Increase height */
+  background-color: var(--confetti-color, #FFD700); /* Default color */
+  opacity: 2;
+  animation: confetti-fade 3s ease-out forwards; /* Change animation name */
+}
+
+@keyframes confetti-fade {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translate(var(--confetti-x), var(--confetti-y)) rotate(var(--confetti-rotation));
+  }
+  100% {
+    opacity: 0; /* Fade out */
+    transform: translate(var(--confetti-x), var(--confetti-y)) rotate(var(--confetti-rotation));
+  }
+}
+
+
+
+
     </style>
   </head>
   <body>
@@ -214,7 +240,7 @@
   <button id="autoButton">Auto</button>
   <div id="resultBox">Welcome! Have fun!</div>
   <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
-    <span style="margin-right: 10px;">Delete</span>
+    <span style="margin-right: 10px;">Delete all of</span>
     <input type="number" id="deleteCount" min="1" value="1" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px; width: 60px;">
     <select id="deleteRarity" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
       <option value="common">Common</option>
@@ -247,6 +273,41 @@
     </select>
     <button id="confirmDelete" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 10px;">Confirm</button>
   </div>
+  <div id="autoDeleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
+  <span style="margin-right: 10px;">Automatically deleting</span>
+  <select id="autoDeleteRarity" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+    <option value="none">None</option>
+    <option value="common">Common</option>
+    <option value="uncommon">Uncommon</option>
+    <option value="rare">Rare</option>
+    <option value="veryrare">Very Rare</option>
+    <option value="epic">Epic</option>
+    <option value="legendary">Legendary</option>
+    <option value="mythic">Mythic</option>
+    <option value="exotic">Exotic</option>
+    <option value="secret">Secret</option>
+    <option value="mystical">Mystical</option>
+    <option value="celestial">Celestial</option>
+    <option value="divine">Divine</option>
+    <option value="titanic">Titanic</option>
+    <option value="shadowed">Shadowed</option>
+    <option value="phantom">Phantom</option>
+    <option value="ethereal">Ethereal</option>
+    <option value="radiant">Radiant</option>
+    <option value="primordial">Primordial</option>
+    <option value="astral">Astral</option>
+    <option value="void">Void</option>
+    <option value="arcane">Arcane</option>
+    <option value="otherworldly">Otherworldly</option>
+    <option value="forbidden">Forbidden</option>
+    <option value="cursed">Cursed</option>
+    <option value="haunted">Haunted</option>
+    <option value="ancient">Ancient</option>
+    <option value="ethereal">Ethereal</option>
+  </select>
+  and below.
+</div>
+
   <p>This site uses a cookie to store your rolls.</p>
 </div>
 <div id="inventoryPanel"></div>
@@ -298,23 +359,60 @@
     updateInventory();
   };
 
-  function roll() {
-    const resultBox = document.getElementById('resultBox');
-    const item = rollItem();
-    resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
-    resultBox.className = item.class;
-    resultBox.style.display = 'block';
-    resultBox.style.borderColor = item.color;
-    // Add rolling effect
-    resultBox.style.transform = 'scale(1.5)';
-    setTimeout(() => {
-      resultBox.style.transform = 'scale(1)';
-    }, 100);
-    inventory.push(item);
-    updateInventory();
-    setCookie('inventory', compress(JSON.stringify(inventory)), 365);
-    document.body.style.backgroundColor = item.color;
+ function roll() {
+  const rollButton = document.getElementById('rollButton');
+  rollButton.disabled = true;
+
+  const resultBox = document.getElementById('resultBox');
+  const item = rollItem();
+  const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
+
+  let autoDeleted = false;
+
+  if (autoDeleteRarity !== 'none') {
+    const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
+    const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
+
+    if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
+      autoDeleted = true;
+      resultBox.innerHTML = `${item.name} (1/${item.rarity}) - Deleted`;
+    }
   }
+
+  if (!autoDeleted) {
+    inventory.push(item);
+    resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
+  }
+
+  resultBox.className = item.class;
+  resultBox.style.display = 'block';
+  resultBox.style.borderColor = item.color;
+
+  // Add rolling effect
+  resultBox.style.transform = 'scale(1.5)';
+  setTimeout(() => {
+    resultBox.style.transform = 'scale(1)';
+  }, 100);
+
+  document.body.style.backgroundColor = item.color;
+  updateInventory();
+  setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+
+  // Create confetti for items with rarity 1000 or higher
+  if (item.rarity >= 1000) {
+    createConfetti(resultBox, item.color);
+  }
+
+  // Re-enable the roll button after a cooldown period
+  setTimeout(() => {
+    rollButton.disabled = false;
+  }, 200);
+}
+
+
+
+
+
 
   function rollItem() {
     const total = items.reduce((sum, item) => sum + 1000000 / item.rarity, 0);
@@ -373,22 +471,19 @@
     return LZString.decompressFromBase64(str);
   }
 
-  function brighterColor(color) {
-    // Convert hex color to RGB
-    const hexToRgb = (hex) => hex.match(/\w\w/g).map(x => parseInt(x, 16));
-    const [r, g, b] = hexToRgb(color);
-    // Calculate brighter color
-    const brighterR = Math.min(255, Math.floor(r * 1.1));
-    const brighterG = Math.min(255, Math.floor(g * 1.1));
-    const brighterB = Math.min(255, Math.floor(b * 1.1));
-    // Convert RGB back to hex
-    const rgbToHex = (r, g, b) => "#" + [r, g, b].map(x => {
-      const hex = x.toString(16);
-      return hex.length === 1 ? "0" + hex : hex;
-    }).join('');
-    // Return brighter color in hex format
-    return rgbToHex(brighterR, brighterG, brighterB);
-  }
+ function brighterColor(color) {
+  const hexToRgb = (hex) => hex.match(/\w\w/g).map(x => parseInt(x, 16));
+  const [r, g, b] = hexToRgb(color);
+  const brighterR = Math.min(255, Math.floor(r * 1.5));
+  const brighterG = Math.min(255, Math.floor(g * 1.5));
+  const brighterB = Math.min(255, Math.floor(b * 1.5));
+  const rgbToHex = (r, g, b) => "#" + [r, g, b].map(x => {
+    const hex = x.toString(16);
+    return hex.length === 1 ? "0" + hex : hex;
+  }).join('');
+  return rgbToHex(brighterR, brighterG, brighterB);
+}
+
 
   document.getElementById('confirmDelete').addEventListener('click', () => {
     const count = parseInt(document.getElementById('deleteCount').value);
@@ -404,6 +499,45 @@
     setCookie('inventory', compress(JSON.stringify(inventory)), 365);
     updateInventory();
   });
+ function createConfetti(element, hoverColor) {
+  const confettiCount = 500;
+  const rect = element.getBoundingClientRect();
+  const confettiContainer = document.getElementById('mainContent');
+  const brighterHoverColor = brighterColor(hoverColor);
+
+  for (let i = 0; i < confettiCount; i++) {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = `${rect.left + rect.width / 2}px`;
+    confetti.style.top = `${rect.top + rect.height / 2}px`;
+    confetti.style.setProperty('--confetti-color', brighterHoverColor);
+
+    confettiContainer.appendChild(confetti);
+
+    // Random rotation and position
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = Math.random() * 500; // Increase the distance
+    const x = distance * Math.cos(angle);
+    const y = distance * Math.sin(angle);
+    const rotation = Math.random() * 360;
+
+    confetti.style.setProperty('--confetti-x', `${x}px`);
+    confetti.style.setProperty('--confetti-y', `${y}px`);
+    confetti.style.setProperty('--confetti-rotation', `${rotation}deg`);
+
+    // Remove confetti after animation
+    confetti.addEventListener('animationend', () => {
+      if (confetti.parentNode === confettiContainer) {
+        confettiContainer.removeChild(confetti);
+      }
+    });
+  }
+}
+
+
+
+
+
 </script>
 
   </body>
