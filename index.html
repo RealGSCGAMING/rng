@@ -241,7 +241,6 @@
   <div id="resultBox">Welcome! Have fun!</div>
   <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
     <span style="margin-right: 10px;">Delete all of</span>
-    <input type="number" id="deleteCount" min="1" value="1" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px; width: 60px;">
     <select id="deleteRarity" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
       <option value="common">Common</option>
       <option value="uncommon">Uncommon</option>
@@ -486,19 +485,14 @@
 
 
   document.getElementById('confirmDelete').addEventListener('click', () => {
-    const count = parseInt(document.getElementById('deleteCount').value);
-    const rarity = document.getElementById('deleteRarity').value;
+  const rarity = document.getElementById('deleteRarity').value;
 
-    for (let i = 0; i < inventory.length; i++) {
-      if (inventory[i].class === rarity) {
-        inventory.splice(i, count);
-        i -= count; // Adjust index for multiple deletions
-      }
-    }
+  inventory = inventory.filter(item => item.class !== rarity);
 
-    setCookie('inventory', compress(JSON.stringify(inventory)), 365);
-    updateInventory();
-  });
+  setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+  updateInventory();
+});
+
  function createConfetti(element, hoverColor) {
   const confettiCount = 500;
   const rect = element.getBoundingClientRect();
