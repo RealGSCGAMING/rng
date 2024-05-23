@@ -19,7 +19,6 @@
 
       :root {
         --brighter: 110%;
-        /* Adjust this value to change brightness */
       }
 
       #mainContent {
@@ -173,7 +172,6 @@
         border: 2px solid #00ffff;
       }
 
-      /* Additional rarities */
       .void {
         border: 2px solid #000000;
       }
@@ -201,14 +199,10 @@
       .confetti {
         position: absolute;
         width: 20px;
-        /* Increase width */
         height: 40px;
-        /* Increase height */
         background-color: var(--confetti-color, #FFD700);
-        /* Default color */
         opacity: 1;
         animation: confetti-fade 3s ease-out forwards;
-        /* Change animation name */
       }
 
       @keyframes confetti-fade {
@@ -223,7 +217,6 @@
 
         100% {
           opacity: 0;
-          /* Fade out */
           transform: translate(var(--confetti-x), var(--confetti-y)) rotate(var(--confetti-rotation));
         }
       }
@@ -240,17 +233,21 @@
         <div id="autoDeleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
           <span style="margin-right: 10px;">Automatically deleting</span>
           <select id="autoDeleteRarity" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
-            <option value="none">None</option>
             <option value="common">Common</option>
             <option value="uncommon">Uncommon</option>
             <option value="rare">Rare</option>
             <option value="veryrare">Very Rare</option>
             <option value="epic">Epic</option>
             <option value="legendary">Legendary</option>
+            <option value="fabled">Fabled</option>
+            <option value="haunted">Haunted</option>
+            <option value="cursed">Cursed</option>
             <option value="mythic">Mythic</option>
+            <option value="otherworldly">Otherworldly</option>
             <option value="exotic">Exotic</option>
+            <option value="arcane">Arcane</option>
+            <option value="void">Void</option>
             <option value="secret">Secret</option>
-            <option value="mystical">Mystical</option>
             <option value="celestial">Celestial</option>
             <option value="divine">Divine</option>
             <option value="titanic">Titanic</option>
@@ -258,17 +255,12 @@
             <option value="phantom">Phantom</option>
             <option value="radiant">Radiant</option>
             <option value="primordial">Primordial</option>
-            <option value="astral">Astral</option>
-            <option value="void">Void</option>
-            <option value="arcane">Arcane</option>
-            <option value="otherworldly">Otherworldly</option>
-            <option value="cursed">Cursed</option>
-            <option value="haunted">Haunted</option>
             <option value="ethereal">Ethereal</option>
+            <option value="astral">Astral</option>
           </select> and below.
         </div>
       </div>
-      <p>This site uses a cookie to store your rolls.</p>
+      <p>This site uses a cookie to store your items.</p>
     </div>
     <div id="leftside">
       <h2>Inventory</h2>
@@ -282,24 +274,24 @@
           <option value="veryrare">Very Rare</option>
           <option value="epic">Epic</option>
           <option value="legendary">Legendary</option>
+          <option value="fabled">Fabled</option>
+          <option value="haunted">Haunted</option>
+          <option value="cursed">Cursed</option>
           <option value="mythic">Mythic</option>
+          <option value="otherworldly">Otherworldly</option>
           <option value="exotic">Exotic</option>
+          <option value="arcane">Arcane</option>
+          <option value="void">Void</option>
           <option value="secret">Secret</option>
-          <option value="mystical">Mystical</option>
           <option value="celestial">Celestial</option>
           <option value="divine">Divine</option>
           <option value="titanic">Titanic</option>
           <option value="shadowed">Shadowed</option>
           <option value="phantom">Phantom</option>
-          <option value="ethereal">Ethereal</option>
           <option value="radiant">Radiant</option>
           <option value="primordial">Primordial</option>
+          <option value="ethereal">Ethereal</option>
           <option value="astral">Astral</option>
-          <option value="void">Void</option>
-          <option value="arcane">Arcane</option>
-          <option value="otherworldly">Otherworldly</option>
-          <option value="cursed">Cursed</option>
-          <option value="haunted">Haunted</option>
         </select>
         <button id="confirmDelete" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 10px;">Confirm</button>
       </div>
@@ -424,7 +416,7 @@
         class: "fabled"
       }, {
         name: "Ethereal",
-        rarity: 500,
+        rarity: 500000,
         color: "#483d8b",
         class: "ethereal"
       }];
@@ -496,6 +488,7 @@
         const inventoryPanel = document.getElementById('inventoryPanel');
         inventoryPanel.innerHTML = inventory.map(item => `
       
+					
 					
 					<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">${item.name} (1/${item.rarity})</div>`).join('');
         setCookie('inventory', compress(JSON.stringify(inventory)), 365);
