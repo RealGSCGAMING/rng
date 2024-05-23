@@ -46,22 +46,21 @@
         border: 2px solid black;
         cursor: pointer;
         margin-top: 10px;
-        margin-left:5px;
-        margin-right:5px;
+        margin-left: 5px;
+        margin-right: 5px;
         transition: background-color 0.3s;
-  transition: transform 0.1s
+        transition: transform 0.1s
       }
 
       #autoButton {
-          margin-bottom:10px;
+        margin-bottom: 10px;
       }
 
       #rollButton:hover,
-#autoButton:hover {
-  background-color: var(--hover-background);
-  transform: scale(1.05);
-}
-
+      #autoButton:hover {
+        background-color: var(--hover-background);
+        transform: scale(1.05);
+      }
 
       #resultBox {
         padding: 20px;
@@ -70,13 +69,14 @@
         font-size: 1.5em;
         border: 2px solid;
         margin-top: 30px;
-        margin-bottom:20px;
+        margin-bottom: 20px;
         transition: background-color 0.3s, transform 0.2s;
       }
 
       #inventoryPanel {
         background-color: white;
       }
+
       #leftside {
         width: 300px;
         height: 100%;
@@ -86,16 +86,16 @@
         padding: 20px;
       }
 
-    .inventoryItem {
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 10px;
-  transition: background-color 0.3s;
-}
+      .inventoryItem {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 10px;
+        transition: background-color 0.3s;
+      }
 
       .inventoryItem:hover {
-  background-color: var(--hover-background);
-}
+        background-color: var(--hover-background);
+      }
 
       .common {
         border: 2px solid #6c757d;
@@ -186,10 +186,6 @@
         border: 2px solid #8b4513;
       }
 
-      .forbidden {
-        border: 2px solid #8b0000;
-      }
-
       .cursed {
         border: 2px solid #8b008b;
       }
@@ -202,405 +198,439 @@
         border: 2px solid #ff8c00;
       }
 
-      .ancient {
-        border: 2px solid #a0522d;
-      }
-
-      .ethereal {
-        border: 2px solid #483d8b;
-      }
       .confetti {
-  position: absolute;
-  width: 20px; /* Increase width */
-  height: 40px; /* Increase height */
-  background-color: var(--confetti-color, #FFD700); /* Default color */
-  opacity: 1;
-  animation: confetti-fade 3s ease-out forwards; /* Change animation name */
-}
+        position: absolute;
+        width: 20px;
+        /* Increase width */
+        height: 40px;
+        /* Increase height */
+        background-color: var(--confetti-color, #FFD700);
+        /* Default color */
+        opacity: 1;
+        animation: confetti-fade 3s ease-out forwards;
+        /* Change animation name */
+      }
 
-@keyframes confetti-fade {
-  0% {
-    opacity: 0.75;
-    transform: translateY(0) rotate(0);
-  }
-  50% {
-    transform: translate(var(--confetti-x), var(--confetti-y)) rotate(var(--confetti-rotation));
-  }
-  100% {
-    opacity: 0; /* Fade out */
-    transform: translate(var(--confetti-x), var(--confetti-y)) rotate(var(--confetti-rotation));
-  }
-}
+      @keyframes confetti-fade {
+        0% {
+          opacity: 0.75;
+          transform: translateY(0) rotate(0);
+        }
 
+        50% {
+          transform: translate(var(--confetti-x), var(--confetti-y)) rotate(var(--confetti-rotation));
+        }
 
-
-
+        100% {
+          opacity: 0;
+          /* Fade out */
+          transform: translate(var(--confetti-x), var(--confetti-y)) rotate(var(--confetti-rotation));
+        }
+      }
     </style>
   </head>
   <body>
     <div id="mainContent">
-  <div id="title">Generic RNG Game</div>
-  <p>Created by banana man and ChatGPT.</p>
-  
-  
-  <div id="resultBox">Welcome! Have fun!</div>
-  <div style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
-  <button id="rollButton">Roll</button>
-  <button id="autoButton">Auto</button>
-  <div id="autoDeleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
-  <span style="margin-right: 10px;">Automatically deleting</span>
-  <select id="autoDeleteRarity" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
-    <option value="none">None</option>
-    <option value="common">Common</option>
-    <option value="uncommon">Uncommon</option>
-    <option value="rare">Rare</option>
-    <option value="veryrare">Very Rare</option>
-    <option value="epic">Epic</option>
-    <option value="legendary">Legendary</option>
-    <option value="mythic">Mythic</option>
-    <option value="exotic">Exotic</option>
-    <option value="secret">Secret</option>
-    <option value="mystical">Mystical</option>
-    <option value="celestial">Celestial</option>
-    <option value="divine">Divine</option>
-    <option value="titanic">Titanic</option>
-    <option value="shadowed">Shadowed</option>
-    <option value="phantom">Phantom</option>
-    <option value="ethereal">Ethereal</option>
-    <option value="radiant">Radiant</option>
-    <option value="primordial">Primordial</option>
-    <option value="astral">Astral</option>
-    <option value="void">Void</option>
-    <option value="arcane">Arcane</option>
-    <option value="otherworldly">Otherworldly</option>
-    <option value="forbidden">Forbidden</option>
-    <option value="cursed">Cursed</option>
-    <option value="haunted">Haunted</option>
-    <option value="ancient">Ancient</option>
-    <option value="ethereal">Ethereal</option>
-  </select>
-  and below.
-</div>
-  </div>
-  
-  
-  
+      <div id="title">Generic RNG Game</div>
+      <p>Created by banana man and ChatGPT.</p>
+      <div id="resultBox">Welcome! Have fun!</div>
+      <div style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
+        <button id="rollButton">Roll</button>
+        <button id="autoButton">Auto</button>
+        <div id="autoDeleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
+          <span style="margin-right: 10px;">Automatically deleting</span>
+          <select id="autoDeleteRarity" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+            <option value="none">None</option>
+            <option value="common">Common</option>
+            <option value="uncommon">Uncommon</option>
+            <option value="rare">Rare</option>
+            <option value="veryrare">Very Rare</option>
+            <option value="epic">Epic</option>
+            <option value="legendary">Legendary</option>
+            <option value="mythic">Mythic</option>
+            <option value="exotic">Exotic</option>
+            <option value="secret">Secret</option>
+            <option value="mystical">Mystical</option>
+            <option value="celestial">Celestial</option>
+            <option value="divine">Divine</option>
+            <option value="titanic">Titanic</option>
+            <option value="shadowed">Shadowed</option>
+            <option value="phantom">Phantom</option>
+            <option value="radiant">Radiant</option>
+            <option value="primordial">Primordial</option>
+            <option value="astral">Astral</option>
+            <option value="void">Void</option>
+            <option value="arcane">Arcane</option>
+            <option value="otherworldly">Otherworldly</option>
+            <option value="cursed">Cursed</option>
+            <option value="haunted">Haunted</option>
+            <option value="ethereal">Ethereal</option>
+          </select> and below.
+        </div>
+      </div>
+      <p>This site uses a cookie to store your rolls.</p>
+    </div>
+    <div id="leftside">
+      <h2>Inventory</h2>
+      <p>Items are sorted from rarest to least rare.</p>
+      <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
+        <span style="margin-right: 10px;">Delete all of</span>
+        <select id="deleteRarity" style="margin-right: 5px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+          <option value="common">Common</option>
+          <option value="uncommon">Uncommon</option>
+          <option value="rare">Rare</option>
+          <option value="veryrare">Very Rare</option>
+          <option value="epic">Epic</option>
+          <option value="legendary">Legendary</option>
+          <option value="mythic">Mythic</option>
+          <option value="exotic">Exotic</option>
+          <option value="secret">Secret</option>
+          <option value="mystical">Mystical</option>
+          <option value="celestial">Celestial</option>
+          <option value="divine">Divine</option>
+          <option value="titanic">Titanic</option>
+          <option value="shadowed">Shadowed</option>
+          <option value="phantom">Phantom</option>
+          <option value="ethereal">Ethereal</option>
+          <option value="radiant">Radiant</option>
+          <option value="primordial">Primordial</option>
+          <option value="astral">Astral</option>
+          <option value="void">Void</option>
+          <option value="arcane">Arcane</option>
+          <option value="otherworldly">Otherworldly</option>
+          <option value="cursed">Cursed</option>
+          <option value="haunted">Haunted</option>
+        </select>
+        <button id="confirmDelete" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 10px;">Confirm</button>
+      </div>
+      <div id="inventoryPanel"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+    <script>
+      const items = [{
+        name: "Common",
+        rarity: 2,
+        color: "#bfbfbf",
+        class: "common"
+      }, {
+        name: "Uncommon",
+        rarity: 5,
+        color: "#6ada55",
+        class: "uncommon"
+      }, {
+        name: "Rare",
+        rarity: 20,
+        color: "#17a2b8",
+        class: "rare"
+      }, {
+        name: "Very Rare",
+        rarity: 100,
+        color: "#2639c3",
+        class: "veryrare"
+      }, {
+        name: "Epic",
+        rarity: 500,
+        color: "#6f42c1",
+        class: "epic"
+      }, {
+        name: "Legendary",
+        rarity: 1000,
+        color: "#fdab14",
+        class: "legendary"
+      }, {
+        name: "Mythic",
+        rarity: 3000,
+        color: "#dc35bf",
+        class: "mythic"
+      }, {
+        name: "Exotic",
+        rarity: 5000,
+        color: "#dc3545",
+        class: "exotic"
+      }, {
+        name: "Secret",
+        rarity: 10000,
+        color: "#040404",
+        class: "secret"
+      }, {
+        name: "Celestial",
+        rarity: 20000,
+        color: "#ffd700",
+        class: "celestial"
+      }, {
+        name: "Divine",
+        rarity: 30000,
+        color: "#00ff00",
+        class: "divine"
+      }, {
+        name: "Titanic",
+        rarity: 50000,
+        color: "#4682b4",
+        class: "titanic"
+      }, {
+        name: "Shadowed",
+        rarity: 70000,
+        color: "#2f4f4f",
+        class: "shadowed"
+      }, {
+        name: "Phantom",
+        rarity: 100000,
+        color: "#8a2be2",
+        class: "phantom"
+      }, {
+        name: "Radiant",
+        rarity: 200000,
+        color: "#ff4500",
+        class: "radiant"
+      }, {
+        name: "Primordial",
+        rarity: 300000,
+        color: "#ff1493",
+        class: "primordial"
+      }, {
+        name: "Astral",
+        rarity: 1000000,
+        color: "#00ffff",
+        class: "astral"
+      }, {
+        name: "Void",
+        rarity: 8000,
+        color: "#000000",
+        class: "void"
+      }, {
+        name: "Arcane",
+        rarity: 6000,
+        color: "#4b0082",
+        class: "arcane"
+      }, {
+        name: "Otherworldly",
+        rarity: 4000,
+        color: "#8b4513",
+        class: "otherworldly"
+      }, {
+        name: "Cursed",
+        rarity: 2000,
+        color: "#8b008b",
+        class: "cursed"
+      }, {
+        name: "Haunted",
+        rarity: 1500,
+        color: "#2e8b57",
+        class: "haunted"
+      }, {
+        name: "Fabled",
+        rarity: 1200,
+        color: "#ff8c00",
+        class: "fabled"
+      }, {
+        name: "Ethereal",
+        rarity: 500,
+        color: "#483d8b",
+        class: "ethereal"
+      }];
+      let inventory = JSON.parse(decompress(getCookie('inventory')) || '[]');
+      let autoRollInterval;
+      document.getElementById('rollButton').addEventListener('click', roll);
+      document.getElementById('autoButton').addEventListener('click', toggleAutoRoll);
+      document.getElementById('inventoryPanel').style.right = '0px';
+      window.onload = () => {
+        updateInventory();
+      };
 
-  <p>This site uses a cookie to store your rolls.</p>
-</div>
-<div id="leftside">
-    <h2>Inventory</h2>
-    <p>Items are sorted from rarest to least rare.</p>
-    <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
-    <span style="margin-right: 10px;">Delete all of</span>
-    <select id="deleteRarity" style="margin-right: 5px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
-      <option value="common">Common</option>
-      <option value="uncommon">Uncommon</option>
-      <option value="rare">Rare</option>
-      <option value="veryrare">Very Rare</option>
-      <option value="epic">Epic</option>
-      <option value="legendary">Legendary</option>
-      <option value="mythic">Mythic</option>
-      <option value="exotic">Exotic</option>
-      <option value="secret">Secret</option>
-      <option value="mystical">Mystical</option>
-      <option value="celestial">Celestial</option>
-      <option value="divine">Divine</option>
-      <option value="titanic">Titanic</option>
-      <option value="shadowed">Shadowed</option>
-      <option value="phantom">Phantom</option>
-      <option value="ethereal">Ethereal</option>
-      <option value="radiant">Radiant</option>
-      <option value="primordial">Primordial</option>
-      <option value="astral">Astral</option>
-      <option value="void">Void</option>
-      <option value="arcane">Arcane</option>
-      <option value="otherworldly">Otherworldly</option>
-      <option value="forbidden">Forbidden</option>
-      <option value="cursed">Cursed</option>
-      <option value="haunted">Haunted</option>
-      <option value="ancient">Ancient</option>
-      <option value="ethereal">Ethereal</option>
-    </select>
-    <button id="confirmDelete" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 10px;">Confirm</button>
-  </div>
-<div id="inventoryPanel"></div>
-</div>
-
-
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
-<script>
-  const items = [
-    { name: "Common", rarity: 2, color: "#bfbfbf", class: "common" },
-    { name: "Uncommon", rarity: 5, color: "#6ada55", class: "uncommon" },
-    { name: "Rare", rarity: 20, color: "#17a2b8", class: "rare" },
-    { name: "Very Rare", rarity: 100, color: "#2639c3", class: "veryrare" },
-    { name: "Epic", rarity: 500, color: "#6f42c1", class: "epic" },
-    { name: "Legendary", rarity: 1000, color: "#fdab14", class: "legendary" },
-    { name: "Mythic", rarity: 3000, color: "#dc35bf", class: "mythic" },
-    { name: "Exotic", rarity: 5000, color: "#dc3545", class: "exotic" },
-    { name: "Secret", rarity: 10000, color: "#040404", class: "secret" },
-    { name: "Celestial", rarity: 20000, color: "#ffd700", class: "celestial" },
-    { name: "Divine", rarity: 30000, color: "#00ff00", class: "divine" },
-    { name: "Titanic", rarity: 50000, color: "#4682b4", class: "titanic" },
-    { name: "Shadowed", rarity: 70000, color: "#2f4f4f", class: "shadowed" },
-    { name: "Phantom", rarity: 100000, color: "#8a2be2", class: "phantom" },
-    { name: "Ethereal", rarity: 150000, color: "#87ceeb", class: "ethereal" },
-    { name: "Radiant", rarity: 200000, color: "#ff4500", class: "radiant" },
-    { name: "Primordial", rarity: 300000, color: "#ff1493", class: "primordial" },
-    { name: "Astral", rarity: 1000000, color: "#00ffff", class: "astral" },
-    { name: "Void", rarity: 8000, color: "#000000", class: "void" },
-    { name: "Arcane", rarity: 6000, color: "#4b0082", class: "arcane" },
-    { name: "Otherworldly", rarity: 4000, color: "#8b4513", class: "otherworldly" },
-    { name: "Forbidden", rarity: 3000, color: "#8b0000", class: "forbidden" },
-    { name: "Cursed", rarity: 2000, color: "#8b008b", class: "cursed" },
-    { name: "Haunted", rarity: 1500, color: "#2e8b57", class: "haunted" },
-    { name: "Fabled", rarity: 1200, color: "#ff8c00", class: "fabled" },
-    { name: "Ancient", rarity: 1000, color: "#a0522d", class: "ancient" },
-    { name: "Ethereal", rarity: 500, color: "#483d8b", class: "ethereal" }
-  ];
-
-  let inventory = JSON.parse(decompress(getCookie('inventory')) || '[]');
-  let autoRollInterval;
-  document.getElementById('rollButton').addEventListener('click', roll);
-  document.getElementById('autoButton').addEventListener('click', toggleAutoRoll);
-  document.getElementById('inventoryPanel').style.right = '0px';
-
-  window.onload = () => {
-    updateInventory();
-  };
-
-function roll() {
-  const rollButton = document.getElementById('rollButton');
-  rollButton.disabled = true;
-
-  const resultBox = document.getElementById('resultBox');
-  const item = debugModeActive ? getDebugModeItem() : rollItem();
-  const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
-
-  let autoDeleted = false;
-
-  if (autoDeleteRarity !== 'none') {
-    const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
-    const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
-
-    if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
-      autoDeleted = true;
-      resultBox.innerHTML = `${item.name} (1/${item.rarity}) - Deleted`;
-    }
-  }
-
-  if (!debugModeActive) {
-    if (!autoDeleted) {
-      inventory.push(item);
-    }
-    resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
-  } else {
-    resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
-  }
-
-  resultBox.className = item.class;
-  resultBox.style.display = 'block';
-  resultBox.style.borderColor = item.color;
-
-  // Add rolling effect
-  resultBox.style.transform = 'scale(1.5)';
-  setTimeout(() => {
-    resultBox.style.transform = 'scale(1)';
-  }, 100);
-
-  document.body.style.backgroundColor = item.color;
-  updateInventory();
-
-  // Check if debug mode is active before updating the cookie
-  if (!debugModeActive) {
-    setCookie('inventory', compress(JSON.stringify(inventory)), 365);
-  }
-
-  // Create confetti for items with rarity 1000 or higher
-  if (item.rarity >= 1000) {
-    createConfetti(resultBox, item.color);
-  }
-
-  // Re-enable the roll button after a cooldown period
-  setTimeout(() => {
-    rollButton.disabled = false;
-  }, 200);
-}
-
-
-
-
-
-
-  function rollItem() {
-    const total = items.reduce((sum, item) => sum + 1000000 / item.rarity, 0);
-    let random = Math.random() * total;
-    for (let item of items) {
-      if (random < 1000000 / item.rarity) {
-        return item;
+      function roll() {
+        const rollButton = document.getElementById('rollButton');
+        rollButton.disabled = true;
+        const resultBox = document.getElementById('resultBox');
+        const item = debugModeActive ? getDebugModeItem() : rollItem();
+        const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
+        let autoDeleted = false;
+        if (autoDeleteRarity !== 'none') {
+          const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
+          const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
+          if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
+            autoDeleted = true;
+            resultBox.innerHTML = `${item.name} (1/${item.rarity}) - Deleted`;
+          }
+        }
+        if (!debugModeActive) {
+          if (!autoDeleted) {
+            inventory.push(item);
+          }
+          resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
+        } else {
+          resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
+        }
+        resultBox.className = item.class;
+        resultBox.style.display = 'block';
+        resultBox.style.borderColor = item.color;
+        resultBox.style.transform = 'scale(1.5)';
+        setTimeout(() => {
+          resultBox.style.transform = 'scale(1)';
+        }, 100);
+        document.body.style.backgroundColor = item.color;
+        updateInventory();
+        if (!debugModeActive) {
+          setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+        }
+        if (item.rarity >= 1000) {
+          createConfetti(resultBox, item.color);
+        }
+        setTimeout(() => {
+          rollButton.disabled = false;
+        }, 200);
       }
-      random -= 1000000 / item.rarity;
-    }
-  }
 
-  function updateInventory() {
-    inventory.sort((a, b) => b.rarity - a.rarity);
-    const inventoryPanel = document.getElementById('inventoryPanel');
-    inventoryPanel.innerHTML = inventory.map(item => `
-      <div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">${item.name} (1/${item.rarity})</div>`).join('');
-    setCookie('inventory', compress(JSON.stringify(inventory)), 365);
-  }
-
-  function toggleAutoRoll() {
-    const autoButton = document.getElementById('autoButton');
-    if (autoRollInterval) {
-      clearInterval(autoRollInterval);
-      autoRollInterval = null;
-      autoButton.style.backgroundColor = 'white';
-    } else {
-      autoRollInterval = setInterval(roll, 1000);
-      autoButton.style.backgroundColor = 'green';
-    }
-  }
-
-  function setCookie(name, value, days) {
-    const d = new Date();
-    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-    const expires = "expires=" + d.toUTCString();
-    document.cookie = name + "=" + value + ";" + expires + ";path=/";
-  }
-
-  function getCookie(name) {
-    const nameEQ = name + "=";
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
-  }
-
-  function compress(str) {
-    return LZString.compressToBase64(str);
-  }
-
-  function decompress(str) {
-    return LZString.decompressFromBase64(str);
-  }
-
- function brighterColor(color) {
-  const hexToRgb = (hex) => hex.match(/\w\w/g).map(x => parseInt(x, 16));
-  const [r, g, b] = hexToRgb(color);
-  const brighterR = Math.min(255, Math.floor(r * 1.5));
-  const brighterG = Math.min(255, Math.floor(g * 1.5));
-  const brighterB = Math.min(255, Math.floor(b * 1.5));
-  const rgbToHex = (r, g, b) => "#" + [r, g, b].map(x => {
-    const hex = x.toString(16);
-    return hex.length === 1 ? "0" + hex : hex;
-  }).join('');
-  return rgbToHex(brighterR, brighterG, brighterB);
-}
-
-
-  document.getElementById('confirmDelete').addEventListener('click', () => {
-  const rarity = document.getElementById('deleteRarity').value;
-
-  inventory = inventory.filter(item => item.class !== rarity);
-
-  setCookie('inventory', compress(JSON.stringify(inventory)), 365);
-  updateInventory();
-});
-
- function createConfetti(element, hoverColor) {
-  const confettiCount = 500;
-  const rect = element.getBoundingClientRect();
-  const confettiContainer = document.getElementById('mainContent');
-  const brighterHoverColor = brighterColor(hoverColor);
-
-  for (let i = 0; i < confettiCount; i++) {
-    const confetti = document.createElement('div');
-    confetti.className = 'confetti';
-    confetti.style.left = `${rect.left + rect.width / 2}px`;
-    confetti.style.top = `${rect.top + rect.height / 2}px`;
-    confetti.style.setProperty('--confetti-color', brighterHoverColor);
-
-    confettiContainer.appendChild(confetti);
-
-    // Random rotation and position
-    const angle = Math.random() * 2 * Math.PI;
-    const distance = Math.random() * 500; // Increase the distance
-    const x = distance * Math.cos(angle);
-    const y = distance * Math.sin(angle);
-    const rotation = Math.random() * 360;
-
-    confetti.style.setProperty('--confetti-x', `${x}px`);
-    confetti.style.setProperty('--confetti-y', `${y}px`);
-    confetti.style.setProperty('--confetti-rotation', `${rotation}deg`);
-
-    // Remove confetti after animation
-    confetti.addEventListener('animationend', () => {
-      if (confetti.parentNode === confettiContainer) {
-        confettiContainer.removeChild(confetti);
+      function rollItem() {
+        const total = items.reduce((sum, item) => sum + 1000000 / item.rarity, 0);
+        let random = Math.random() * total;
+        for (let item of items) {
+          if (random < 1000000 / item.rarity) {
+            return item;
+          }
+          random -= 1000000 / item.rarity;
+        }
       }
-    });
-  }
-}
 
-let debugModeActive = false;
+      function updateInventory() {
+        inventory.sort((a, b) => b.rarity - a.rarity);
+        const inventoryPanel = document.getElementById('inventoryPanel');
+        inventoryPanel.innerHTML = inventory.map(item => `
+      
+					
+					<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">${item.name} (1/${item.rarity})</div>`).join('');
+        setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+      }
 
-// Event listener to detect 'D' key press and hold
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'd' || event.key === 'D') {
-    promptDebugModePassword();
-  }
-});
+      function toggleAutoRoll() {
+        const autoButton = document.getElementById('autoButton');
+        if (autoRollInterval) {
+          clearInterval(autoRollInterval);
+          autoRollInterval = null;
+          autoButton.style.backgroundColor = 'white';
+        } else {
+          autoRollInterval = setInterval(roll, 1000);
+          autoButton.style.backgroundColor = 'green';
+        }
+      }
 
-// Function to prompt user for debug mode password
-function promptDebugModePassword() {
-  const password = prompt('Enter password to access Debug Mode:');
-  // Change 'your_password' to your actual debug mode password
-  if (password === 'frank') {
-    activateDebugMode();
-  }
-}
+      function setCookie(name, value, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+      }
 
-// Function to activate debug mode
-function activateDebugMode() {
-  debugModeActive = true;
-  const debugRectangle = document.createElement('div');
-  debugRectangle.id = 'debugRectangle';
-  debugRectangle.style.width = '200px';
-  debugRectangle.style.height = '50px';
-  debugRectangle.style.border = '2px solid black';
-  debugRectangle.style.backgroundColor = 'white';
-  debugRectangle.style.padding = '20px';
-  debugRectangle.style.borderRadius = '15px'
-  document.getElementById('mainContent').appendChild(debugRectangle);
+      function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+      }
 
-  const numberInput = document.createElement('input');
-  numberInput.type = 'number';
-  numberInput.id = 'debugNumberInput';
-  debugRectangle.appendChild(numberInput);
-}
+      function compress(str) {
+        return LZString.compressToBase64(str);
+      }
 
-function getDebugModeItem() {
-  const debugNumber = parseInt(document.getElementById('debugNumberInput').value);
-  if (!isNaN(debugNumber)) {
-    const item = items.find(item => item.rarity === debugNumber);
-    if (item) {
-      return item;
-    }
-  }
-  // If debug number is invalid, return a default item
-  return { name: "Error", rarity: 1, color: "#808080", class: "common" };
-}
+      function decompress(str) {
+        return LZString.decompressFromBase64(str);
+      }
 
-</script>
+      function brighterColor(color) {
+        const hexToRgb = (hex) => hex.match(/\w\w/g).map(x => parseInt(x, 16));
+        const [r, g, b] = hexToRgb(color);
+        const brighterR = Math.min(255, Math.floor(r * 1.5));
+        const brighterG = Math.min(255, Math.floor(g * 1.5));
+        const brighterB = Math.min(255, Math.floor(b * 1.5));
+        const rgbToHex = (r, g, b) => "#" + [r, g, b].map(x => {
+          const hex = x.toString(16);
+          return hex.length === 1 ? "0" + hex : hex;
+        }).join('');
+        return rgbToHex(brighterR, brighterG, brighterB);
+      }
+      document.getElementById('confirmDelete').addEventListener('click', () => {
+        const rarity = document.getElementById('deleteRarity').value;
+        inventory = inventory.filter(item => item.class !== rarity);
+        setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+        updateInventory();
+      });
 
+      function createConfetti(element, hoverColor) {
+        const confettiCount = 500;
+        const rect = element.getBoundingClientRect();
+        const confettiContainer = document.getElementById('mainContent');
+        const brighterHoverColor = brighterColor(hoverColor);
+        for (let i = 0; i < confettiCount; i++) {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.left = `${rect.left + rect.width / 2}px`;
+          confetti.style.top = `${rect.top + rect.height / 2}px`;
+          confetti.style.setProperty('--confetti-color', brighterHoverColor);
+          confettiContainer.appendChild(confetti);
+          const angle = Math.random() * 2 * Math.PI;
+          const distance = Math.random() * 500;
+          const x = distance * Math.cos(angle);
+          const y = distance * Math.sin(angle);
+          const rotation = Math.random() * 360;
+          confetti.style.setProperty('--confetti-x', `${x}px`);
+          confetti.style.setProperty('--confetti-y', `${y}px`);
+          confetti.style.setProperty('--confetti-rotation', `${rotation}deg`);
+          confetti.addEventListener('animationend', () => {
+            if (confetti.parentNode === confettiContainer) {
+              confettiContainer.removeChild(confetti);
+            }
+          });
+        }
+      }
+      let debugModeActive = false;
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'd' || event.key === 'D') {
+          promptDebugModePassword();
+        }
+      });
+
+      function promptDebugModePassword() {
+        const password = prompt('Enter password to access Debug Mode:');
+        if (password === 'test') {
+          activateDebugMode();
+        }
+      }
+
+      function activateDebugMode() {
+        debugModeActive = true;
+        const debugRectangle = document.createElement('div');
+        debugRectangle.id = 'debugRectangle';
+        debugRectangle.style.width = '200px';
+        debugRectangle.style.height = '50px';
+        debugRectangle.style.border = '2px solid black';
+        debugRectangle.style.backgroundColor = 'white';
+        debugRectangle.style.padding = '20px';
+        debugRectangle.style.borderRadius = '15px'
+        document.getElementById('mainContent').appendChild(debugRectangle);
+        const numberInput = document.createElement('input');
+        numberInput.type = 'number';
+        numberInput.id = 'debugNumberInput';
+        debugRectangle.appendChild(numberInput);
+      }
+
+      function getDebugModeItem() {
+        const debugNumber = parseInt(document.getElementById('debugNumberInput').value);
+        if (!isNaN(debugNumber)) {
+          const item = items.find(item => item.rarity === debugNumber);
+          if (item) {
+            return item;
+          }
+        }
+        return {
+          name: "Error",
+          rarity: 1,
+          color: "#808080",
+          class: "common"
+        };
+      }
+    </script>
   </body>
 </html>
