@@ -87,10 +87,12 @@
   padding: 10px;
   border-radius: 10px;
   transition: background-color 0.3s;
+  transition: transform 0.1s
 }
 
       .inventoryItem:hover {
   background-color: var(--hover-background);
+  transform: scale(1.05);
 }
 
       .common {
@@ -248,7 +250,6 @@
     <button id="confirmDelete" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 10px;">Confirm</button>
   </div>
   <p>This site uses a cookie to store your rolls.</p>
-  <p>Cookie saving appears to be broken right now, but you should be able to save by deleting at least 1 item before closing your tab.</p>
 </div>
 <div id="inventoryPanel"></div>
 
@@ -257,153 +258,49 @@
 
 
 
-    <script>
-      const items = [{
-        name: "Common",
-        rarity: 2,
-        color: "#bfbfbf",
-        class: "common"
-      }, {
-        name: "Uncommon",
-        rarity: 5,
-        color: "#6ada55",
-        class: "uncommon"
-      }, {
-        name: "Rare",
-        rarity: 20,
-        color: "#17a2b8",
-        class: "rare"
-      }, {
-        name: "Very Rare",
-        rarity: 100,
-        color: "#2639c3",
-        class: "veryrare"
-      }, {
-        name: "Epic",
-        rarity: 500,
-        color: "#6f42c1",
-        class: "epic"
-      }, {
-        name: "Legendary",
-        rarity: 1000,
-        color: "#fdab14",
-        class: "legendary"
-      }, {
-        name: "Mythic",
-        rarity: 3000,
-        color: "#dc35bf",
-        class: "mythic"
-      }, {
-        name: "Exotic",
-        rarity: 5000,
-        color: "#dc3545",
-        class: "exotic"
-      }, {
-        name: "Secret",
-        rarity: 10000,
-        color: "#040404",
-        class: "secret"
-      }, {
-        name: "Celestial",
-        rarity: 20000,
-        color: "#ffd700",
-        class: "celestial"
-      }, {
-        name: "Divine",
-        rarity: 30000,
-        color: "#00ff00",
-        class: "divine"
-      }, {
-        name: "Titanic",
-        rarity: 50000,
-        color: "#4682b4",
-        class: "titanic"
-      }, {
-        name: "Shadowed",
-        rarity: 70000,
-        color: "#2f4f4f",
-        class: "shadowed"
-      }, {
-        name: "Phantom",
-        rarity: 100000,
-        color: "#8a2be2",
-        class: "phantom"
-      }, {
-        name: "Ethereal",
-        rarity: 150000,
-        color: "#87ceeb",
-        class: "ethereal"
-      }, {
-        name: "Radiant",
-        rarity: 200000,
-        color: "#ff4500",
-        class: "radiant"
-      }, {
-        name: "Primordial",
-        rarity: 300000,
-        color: "#ff1493",
-        class: "primordial"
-      }, {
-        name: "Astral",
-        rarity: 1000000,
-        color: "#00ffff",
-        class: "astral"
-      }, {
-        name: "Void",
-        rarity: 8000,
-        color: "#000000",
-        class: "void"
-      }, {
-        name: "Arcane",
-        rarity: 6000,
-        color: "#4b0082",
-        class: "arcane"
-      }, {
-        name: "Otherworldly",
-        rarity: 4000,
-        color: "#8b4513",
-        class: "otherworldly"
-      }, {
-        name: "Forbidden",
-        rarity: 3000,
-        color: "#8b0000",
-        class: "forbidden"
-      }, {
-        name: "Cursed",
-        rarity: 2000,
-        color: "#8b008b",
-        class: "cursed"
-      }, {
-        name: "Haunted",
-        rarity: 1500,
-        color: "#2e8b57",
-        class: "haunted"
-      }, {
-        name: "Fabled",
-        rarity: 1200,
-        color: "#ff8c00",
-        class: "fabled"
-      }, {
-        name: "Ancient",
-        rarity: 1000,
-        color: "#a0522d",
-        class: "ancient"
-      }, {
-        name: "Ethereal",
-        rarity: 500,
-        color: "#483d8b",
-        class: "ethereal"
-      }];
- let inventory = JSON.parse(getCookie('inventory') || '[]');
-      let autoRollInterval;
-      document.getElementById('rollButton').addEventListener('click', roll);
-      document.getElementById('autoButton').addEventListener('click', toggleAutoRoll);
-      document.getElementById('inventoryPanel').style.right = '0px';
-      window.onload = () => {
-        updateInventory();
-      };
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+<script>
+  const items = [
+    { name: "Common", rarity: 2, color: "#bfbfbf", class: "common" },
+    { name: "Uncommon", rarity: 5, color: "#6ada55", class: "uncommon" },
+    { name: "Rare", rarity: 20, color: "#17a2b8", class: "rare" },
+    { name: "Very Rare", rarity: 100, color: "#2639c3", class: "veryrare" },
+    { name: "Epic", rarity: 500, color: "#6f42c1", class: "epic" },
+    { name: "Legendary", rarity: 1000, color: "#fdab14", class: "legendary" },
+    { name: "Mythic", rarity: 3000, color: "#dc35bf", class: "mythic" },
+    { name: "Exotic", rarity: 5000, color: "#dc3545", class: "exotic" },
+    { name: "Secret", rarity: 10000, color: "#040404", class: "secret" },
+    { name: "Celestial", rarity: 20000, color: "#ffd700", class: "celestial" },
+    { name: "Divine", rarity: 30000, color: "#00ff00", class: "divine" },
+    { name: "Titanic", rarity: 50000, color: "#4682b4", class: "titanic" },
+    { name: "Shadowed", rarity: 70000, color: "#2f4f4f", class: "shadowed" },
+    { name: "Phantom", rarity: 100000, color: "#8a2be2", class: "phantom" },
+    { name: "Ethereal", rarity: 150000, color: "#87ceeb", class: "ethereal" },
+    { name: "Radiant", rarity: 200000, color: "#ff4500", class: "radiant" },
+    { name: "Primordial", rarity: 300000, color: "#ff1493", class: "primordial" },
+    { name: "Astral", rarity: 1000000, color: "#00ffff", class: "astral" },
+    { name: "Void", rarity: 8000, color: "#000000", class: "void" },
+    { name: "Arcane", rarity: 6000, color: "#4b0082", class: "arcane" },
+    { name: "Otherworldly", rarity: 4000, color: "#8b4513", class: "otherworldly" },
+    { name: "Forbidden", rarity: 3000, color: "#8b0000", class: "forbidden" },
+    { name: "Cursed", rarity: 2000, color: "#8b008b", class: "cursed" },
+    { name: "Haunted", rarity: 1500, color: "#2e8b57", class: "haunted" },
+    { name: "Fabled", rarity: 1200, color: "#ff8c00", class: "fabled" },
+    { name: "Ancient", rarity: 1000, color: "#a0522d", class: "ancient" },
+    { name: "Ethereal", rarity: 500, color: "#483d8b", class: "ethereal" }
+  ];
 
-    function roll() {
+  let inventory = JSON.parse(decompress(getCookie('inventory')) || '[]');
+  let autoRollInterval;
+  document.getElementById('rollButton').addEventListener('click', roll);
+  document.getElementById('autoButton').addEventListener('click', toggleAutoRoll);
+  document.getElementById('inventoryPanel').style.right = '0px';
+
+  window.onload = () => {
+    updateInventory();
+  };
+
+  function roll() {
     const resultBox = document.getElementById('resultBox');
     const item = rollItem();
     resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
@@ -413,94 +310,103 @@
     // Add rolling effect
     resultBox.style.transform = 'scale(1.5)';
     setTimeout(() => {
-        resultBox.style.transform = 'scale(1)';
+      resultBox.style.transform = 'scale(1)';
     }, 100);
     inventory.push(item);
-    updateInventory(); // Move updateInventory here
-    setCookie('inventory', JSON.stringify(inventory), 365); // Move setCookie here
+    updateInventory();
+    setCookie('inventory', compress(JSON.stringify(inventory)), 365);
     document.body.style.backgroundColor = item.color;
-}
-    
-    function rollItem() {
-        const total = items.reduce((sum, item) => sum + 1000000 / item.rarity, 0);
-        let random = Math.random() * total;
-        for (let item of items) {
-          if (random < 1000000 / item.rarity) {
-            return item;
-          }
-          random -= 1000000 / item.rarity;
-        }
-      }
+  }
 
-    function updateInventory() {
+  function rollItem() {
+    const total = items.reduce((sum, item) => sum + 1000000 / item.rarity, 0);
+    let random = Math.random() * total;
+    for (let item of items) {
+      if (random < 1000000 / item.rarity) {
+        return item;
+      }
+      random -= 1000000 / item.rarity;
+    }
+  }
+
+  function updateInventory() {
     inventory.sort((a, b) => b.rarity - a.rarity);
     const inventoryPanel = document.getElementById('inventoryPanel');
     inventoryPanel.innerHTML = inventory.map(item => `
       <div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">${item.name} (1/${item.rarity})</div>`).join('');
-    setCookie('inventory', JSON.stringify(inventory), 365); // Move setCookie here
-}
+    setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+  }
 
-      function toggleAutoRoll() {
-        const autoButton = document.getElementById('autoButton');
-        if (autoRollInterval) {
-          clearInterval(autoRollInterval);
-          autoRollInterval = null;
-          autoButton.style.backgroundColor = 'white';
-        } else {
-          autoRollInterval = setInterval(roll, 1000);
-          autoButton.style.backgroundColor = 'green';
-        }
-      }
+  function toggleAutoRoll() {
+    const autoButton = document.getElementById('autoButton');
+    if (autoRollInterval) {
+      clearInterval(autoRollInterval);
+      autoRollInterval = null;
+      autoButton.style.backgroundColor = 'white';
+    } else {
+      autoRollInterval = setInterval(roll, 1000);
+      autoButton.style.backgroundColor = 'green';
+    }
+  }
 
-      function setCookie(name, value, days) {
-        const d = new Date();
-        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + d.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/";
-      }
+  function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+  }
 
-      function getCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-          let c = ca[i];
-          while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-          if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-      }
+  function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
 
-      function brighterColor(color) {
-        // Convert hex color to RGB
-        const hexToRgb = (hex) => hex.match(/\w\w/g).map(x => parseInt(x, 16));
-        const [r, g, b] = hexToRgb(color);
-        // Calculate brighter color
-        const brighterR = Math.min(255, Math.floor(r * 1.1));
-        const brighterG = Math.min(255, Math.floor(g * 1.1));
-        const brighterB = Math.min(255, Math.floor(b * 1.1));
-        // Convert RGB back to hex
-        const rgbToHex = (r, g, b) => "#" + [r, g, b].map(x => {
-          const hex = x.toString(16);
-          return hex.length === 1 ? "0" + hex : hex;
-        }).join('');
-        // Return brighter color in hex format
-        return rgbToHex(brighterR, brighterG, brighterB);
-      }
-    document.getElementById('confirmDelete').addEventListener('click', () => {
+  function compress(str) {
+    return LZString.compressToBase64(str);
+  }
+
+  function decompress(str) {
+    return LZString.decompressFromBase64(str);
+  }
+
+  function brighterColor(color) {
+    // Convert hex color to RGB
+    const hexToRgb = (hex) => hex.match(/\w\w/g).map(x => parseInt(x, 16));
+    const [r, g, b] = hexToRgb(color);
+    // Calculate brighter color
+    const brighterR = Math.min(255, Math.floor(r * 1.1));
+    const brighterG = Math.min(255, Math.floor(g * 1.1));
+    const brighterB = Math.min(255, Math.floor(b * 1.1));
+    // Convert RGB back to hex
+    const rgbToHex = (r, g, b) => "#" + [r, g, b].map(x => {
+      const hex = x.toString(16);
+      return hex.length === 1 ? "0" + hex : hex;
+    }).join('');
+    // Return brighter color in hex format
+    return rgbToHex(brighterR, brighterG, brighterB);
+  }
+
+  document.getElementById('confirmDelete').addEventListener('click', () => {
     const count = parseInt(document.getElementById('deleteCount').value);
     const rarity = document.getElementById('deleteRarity').value;
 
     for (let i = 0; i < inventory.length; i++) {
-        if (inventory[i].class === rarity) {
-            inventory.splice(i, count);
-            i -= count; // Adjust index for multiple deletions
-        }
+      if (inventory[i].class === rarity) {
+        inventory.splice(i, count);
+        i -= count; // Adjust index for multiple deletions
+      }
     }
 
-    setCookie('inventory', JSON.stringify(inventory), 365); // Move setCookie here
-    updateInventory(); // Move updateInventory here
-});
+    setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+    updateInventory();
+  });
+</script>
 
-    </script>
   </body>
 </html>
