@@ -45,15 +45,15 @@
         color: black;
         border: 2px solid black;
         cursor: pointer;
-        margin-top: 25px;
+        margin-top: 10px;
+        margin-left:5px;
+        margin-right:5px;
         transition: background-color 0.3s;
   transition: transform 0.1s
       }
 
       #autoButton {
-        width: 50%;
-        margin-top: 10px;
-        border-radius: 15px;
+          margin-bottom:10px;
       }
 
       #rollButton:hover,
@@ -69,11 +69,15 @@
         background-color: white;
         font-size: 1.5em;
         border: 2px solid;
-        margin-top: 20px;
+        margin-top: 30px;
+        margin-bottom:20px;
         transition: background-color 0.3s, transform 0.2s;
       }
 
       #inventoryPanel {
+        background-color: white;
+      }
+      #leftside {
         width: 300px;
         height: 100%;
         background-color: white;
@@ -236,42 +240,13 @@
   <body>
     <div id="mainContent">
   <div id="title">Generic RNG Game</div>
+  <p>Created by banana man and ChatGPT.</p>
+  
+  
+  <div id="resultBox">Welcome! Have fun!</div>
+  <div style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
   <button id="rollButton">Roll</button>
   <button id="autoButton">Auto</button>
-  <div id="resultBox">Welcome! Have fun!</div>
-  <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
-    <span style="margin-right: 10px;">Delete all of</span>
-    <select id="deleteRarity" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
-      <option value="common">Common</option>
-      <option value="uncommon">Uncommon</option>
-      <option value="rare">Rare</option>
-      <option value="veryrare">Very Rare</option>
-      <option value="epic">Epic</option>
-      <option value="legendary">Legendary</option>
-      <option value="mythic">Mythic</option>
-      <option value="exotic">Exotic</option>
-      <option value="secret">Secret</option>
-      <option value="mystical">Mystical</option>
-      <option value="celestial">Celestial</option>
-      <option value="divine">Divine</option>
-      <option value="titanic">Titanic</option>
-      <option value="shadowed">Shadowed</option>
-      <option value="phantom">Phantom</option>
-      <option value="ethereal">Ethereal</option>
-      <option value="radiant">Radiant</option>
-      <option value="primordial">Primordial</option>
-      <option value="astral">Astral</option>
-      <option value="void">Void</option>
-      <option value="arcane">Arcane</option>
-      <option value="otherworldly">Otherworldly</option>
-      <option value="forbidden">Forbidden</option>
-      <option value="cursed">Cursed</option>
-      <option value="haunted">Haunted</option>
-      <option value="ancient">Ancient</option>
-      <option value="ethereal">Ethereal</option>
-    </select>
-    <button id="confirmDelete" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 10px;">Confirm</button>
-  </div>
   <div id="autoDeleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
   <span style="margin-right: 10px;">Automatically deleting</span>
   <select id="autoDeleteRarity" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
@@ -306,11 +281,51 @@
   </select>
   and below.
 </div>
+  </div>
+  
+  
+  
 
   <p>This site uses a cookie to store your rolls.</p>
 </div>
+<div id="leftside">
+    <h2>Inventory</h2>
+    <p>Items are sorted from rarest to least rare.</p>
+    <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
+    <span style="margin-right: 10px;">Delete all of</span>
+    <select id="deleteRarity" style="margin-right: 5px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
+      <option value="common">Common</option>
+      <option value="uncommon">Uncommon</option>
+      <option value="rare">Rare</option>
+      <option value="veryrare">Very Rare</option>
+      <option value="epic">Epic</option>
+      <option value="legendary">Legendary</option>
+      <option value="mythic">Mythic</option>
+      <option value="exotic">Exotic</option>
+      <option value="secret">Secret</option>
+      <option value="mystical">Mystical</option>
+      <option value="celestial">Celestial</option>
+      <option value="divine">Divine</option>
+      <option value="titanic">Titanic</option>
+      <option value="shadowed">Shadowed</option>
+      <option value="phantom">Phantom</option>
+      <option value="ethereal">Ethereal</option>
+      <option value="radiant">Radiant</option>
+      <option value="primordial">Primordial</option>
+      <option value="astral">Astral</option>
+      <option value="void">Void</option>
+      <option value="arcane">Arcane</option>
+      <option value="otherworldly">Otherworldly</option>
+      <option value="forbidden">Forbidden</option>
+      <option value="cursed">Cursed</option>
+      <option value="haunted">Haunted</option>
+      <option value="ancient">Ancient</option>
+      <option value="ethereal">Ethereal</option>
+    </select>
+    <button id="confirmDelete" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 10px;">Confirm</button>
+  </div>
 <div id="inventoryPanel"></div>
-
+</div>
 
 
 
