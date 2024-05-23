@@ -373,12 +373,12 @@
     updateInventory();
   };
 
- function roll() {
+function roll() {
   const rollButton = document.getElementById('rollButton');
   rollButton.disabled = true;
 
   const resultBox = document.getElementById('resultBox');
-  const item = rollItem();
+  const item = debugModeActive ? getDebugModeItem() : rollItem();
   const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
 
   let autoDeleted = false;
@@ -393,9 +393,13 @@
     }
   }
 
-  if (!autoDeleted) {
-    inventory.push(item);
+  if (!debugModeActive) {
+    if (!autoDeleted) {
+      inventory.push(item);
+    }
     resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
+  } else {
+    resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
   }
 
   resultBox.className = item.class;
@@ -410,7 +414,11 @@
 
   document.body.style.backgroundColor = item.color;
   updateInventory();
-  setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+
+  // Check if debug mode is active before updating the cookie
+  if (!debugModeActive) {
+    setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+  }
 
   // Create confetti for items with rarity 1000 or higher
   if (item.rarity >= 1000) {
@@ -543,9 +551,54 @@
   }
 }
 
+let debugModeActive = false;
 
+// Event listener to detect 'D' key press and hold
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'd' || event.key === 'D') {
+    promptDebugModePassword();
+  }
+});
 
+// Function to prompt user for debug mode password
+function promptDebugModePassword() {
+  const password = prompt('Enter password to access Debug Mode:');
+  // Change 'your_password' to your actual debug mode password
+  if (password === 'test') {
+    activateDebugMode();
+  }
+}
 
+// Function to activate debug mode
+function activateDebugMode() {
+  debugModeActive = true;
+  const debugRectangle = document.createElement('div');
+  debugRectangle.id = 'debugRectangle';
+  debugRectangle.style.width = '200px';
+  debugRectangle.style.height = '50px';
+  debugRectangle.style.border = '2px solid black';
+  debugRectangle.style.backgroundColor = 'white';
+  debugRectangle.style.padding = '20px';
+  debugRectangle.style.borderRadius = '15px'
+  document.getElementById('mainContent').appendChild(debugRectangle);
+
+  const numberInput = document.createElement('input');
+  numberInput.type = 'number';
+  numberInput.id = 'debugNumberInput';
+  debugRectangle.appendChild(numberInput);
+}
+
+function getDebugModeItem() {
+  const debugNumber = parseInt(document.getElementById('debugNumberInput').value);
+  if (!isNaN(debugNumber)) {
+    const item = items.find(item => item.rarity === debugNumber);
+    if (item) {
+      return item;
+    }
+  }
+  // If debug number is invalid, return a default item
+  return { name: "Error", rarity: 1, color: "#808080", class: "common" };
+}
 
 </script>
 
