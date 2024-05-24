@@ -101,28 +101,13 @@
         background-color: white;
       }
 
-      #leftside {
+      #rightside {
         width: 300px;
         height: 100%;
         background-color: white;
         border-left: 2px solid #007BFF;
         overflow-y: auto;
         padding: 20px;
-      }
-
-      #rightside {
-        width: 150px;
-        height: 100%;
-        background-color: white;
-        border-right: 2px solid #007BFF;
-        overflow-y: auto;
-        padding: 20px;
-      }
-
-      #statsPanel {
-        margin-top: 20px;
-        <p class="inventoryItem common">Total Rolls:
-          <span id="totalRolls">0</span> </p> <p class="inventoryItem common">Items Deleted: <span id="itemsDeleted">0</span> </p> <p class="inventoryItem common">Total Rarity: <span id="totalRarity">0</span> </p>
       }
 
       .inventoryItem {
@@ -260,81 +245,70 @@
           transform: translate(var(--confetti-x), var(--confetti-y)) rotate(var(--confetti-rotation));
         }
       }
+
       /* Add animations for left, right, and top */
-.animate-left {
-  animation: slideLeft 2s ease-in-out;
-}
+      .animate-left {
+        animation: slideLeft 2s ease-in-out;
+      }
 
-.animate-right {
-  animation: slideRight 2s ease-in-out;
-}
+      .animate-right {
+        animation: slideRight 2s ease-in-out;
+      }
 
-.animate-top {
-  animation: slideTop 2s ease-in-out;
-}
+      .animate-top {
+        animation: slideTop 2s ease-in-out;
+      }
 
-.animate-down {
-  animation: slideDown 2s ease-out;
-}
+      .animate-down {
+        animation: slideDown 2s ease-out;
+      }
 
-@keyframes slideLeft {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
+      @keyframes slideLeft {
+        0% {
+          transform: translateX(-100%);
+        }
 
-@keyframes slideRight {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
+        100% {
+          transform: translateX(0);
+        }
+      }
 
-@keyframes slideTop {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-@keyframes slideDown {
-  0% {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+      @keyframes slideRight {
+        0% {
+          transform: translateX(100%);
+        }
+
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideTop {
+        0% {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideDown {
+        0% {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
     </style>
   </head>
   <body>
-    <div id="rightside" class="animate-left">
-      <h2>Stats</h2>
-      <div id="statsPanel">
-        <p class="inventoryItem common">Total Rolls: <span id="totalRolls">0</span>
-        </p>
-        <p class="inventoryItem common">Items Deleted: <span id="itemsDeleted">0</span>
-        </p>
-        <p class="inventoryItem common">Total Rarity: <span id="totalRarity">0</span>
-        </p>
-        <p class="inventoryItem common">Lucky Rolls: <span id="luckyRolls">0</span>
-        </p>
-        <p class="inventoryItem common">Auto Rolls: <span id="autoRolls">0</span>
-        </p>
-        <p class="inventoryItem common">Visits: <span id="visits">0</span>
-        </p>
-      </div>
-    </div>
     <div id="mainContent" class="animate-top">
       <div id="title">Generic RNG Game</div>
       <p>Created by banana man and ChatGPT.</p>
@@ -376,7 +350,7 @@
       </div>
       <p>This site uses a cookie to store your items.</p>
     </div>
-    <div id="leftside" class="animate-right">
+    <div id="rightside" class="animate-right">
       <h2>Inventory</h2>
       <p>Items are sorted from rarest to least rare.</p>
       <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
@@ -543,90 +517,80 @@
         updateInventory();
       };
 
-     function roll() {
-    const rollButton = document.getElementById('rollButton');
-    rollButton.disabled = true;
-    const resultBox = document.getElementById('resultBox');
-    const item = debugModeActive ? getDebugModeItem() : rollItem();
-    const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
-    let autoDeleted = false;
-    if (autoDeleteRarity !== 'none') {
-        const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
-        const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
-        if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
+      function roll() {
+        const rollButton = document.getElementById('rollButton');
+        rollButton.disabled = true;
+        const resultBox = document.getElementById('resultBox');
+        const item = debugModeActive ? getDebugModeItem() : rollItem();
+        const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
+        let autoDeleted = false;
+        if (autoDeleteRarity !== 'none') {
+          const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
+          const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
+          if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
             autoDeleted = true;
             resultBox.innerHTML = `${item.name} (1/${item.rarity}) - Deleted`;
             itemsDeleted++;
+          }
         }
-    }
-    if (!debugModeActive && !autoDeleted) { // Check if neither in debug mode nor auto-deleted
-        inventory.push(item);
-        resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
-    } else if (debugModeActive) {
-        resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
-    }
-    resultBox.className = item.class;
-    resultBox.style.display = 'block';
-    resultBox.style.borderColor = item.color;
-    resultBox.style.transform = 'scale(1.5)';
-    setTimeout(() => {
-        resultBox.style.transform = 'scale(1)';
-    }, 100);
-    document.body.style.backgroundColor = item.color;
-    updateInventory(); // Update the inventory regardless of debug mode
-    if (item.rarity >= 1000) {
-        createConfetti(resultBox, item.color);
-
-        // Browser notification
-        if (Notification.permission === "granted") {
+        if (!debugModeActive && !autoDeleted) { // Check if neither in debug mode nor auto-deleted
+          inventory.push(item);
+          resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
+        } else if (debugModeActive) {
+          resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
+        }
+        resultBox.className = item.class;
+        resultBox.style.display = 'block';
+        resultBox.style.borderColor = item.color;
+        resultBox.style.transform = 'scale(1.5)';
+        setTimeout(() => {
+          resultBox.style.transform = 'scale(1)';
+        }, 100);
+        document.body.style.backgroundColor = item.color;
+        updateInventory(); // Update the inventory regardless of debug mode
+        if (item.rarity >= 1000) {
+          createConfetti(resultBox, item.color);
+          // Browser notification
+          if (Notification.permission === "granted") {
             const notification = new Notification('Generic RNG Game', {
-                body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
-                icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
+              body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
+              icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
             });
-
-            notification.onclick = function () {
-                window.focus();
-                notification.close();
+            notification.onclick = function() {
+              window.focus();
+              notification.close();
             };
-        } else if (Notification.permission !== "denied") {
+          } else if (Notification.permission !== "denied") {
             Notification.requestPermission().then(permission => {
-                if (permission === "granted") {
-                    const notification = new Notification('Generic RNG Game', {
-                        body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
-                        icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
-                    });
-
-                    notification.onclick = function () {
-                        window.focus();
-                        notification.close();
-                    };
-                }
+              if (permission === "granted") {
+                const notification = new Notification('Generic RNG Game', {
+                  body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
+                  icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
+                });
+                notification.onclick = function() {
+                  window.focus();
+                  notification.close();
+                };
+              }
             });
+          }
         }
-    }
-    setTimeout(() => {
-        rollButton.disabled = false;
-    }, 200);
-}
-
-
-
-
+        setTimeout(() => {
+          rollButton.disabled = false;
+        }, 200);
+      }
       // Inside the toggleAutoRoll() function
-     function toggleAutoRoll() {
-  const autoButton = document.getElementById('autoButton');
-  if (autoRollInterval) {
-    clearInterval(autoRollInterval);
-    autoRollInterval = null;
-    autoButton.style.backgroundColor = 'white';
-  } else {
-    autoRollInterval = setInterval(roll, 1000);
-    autoButton.style.backgroundColor = 'green';
-    // Save auto rolls to cookie when auto roll is started
-    setCookie('autoRolls', autoRolls, 365);
-    updateStats();
-  }
-}
+      function toggleAutoRoll() {
+        const autoButton = document.getElementById('autoButton');
+        if (autoRollInterval) {
+          clearInterval(autoRollInterval);
+          autoRollInterval = null;
+          autoButton.style.backgroundColor = 'white';
+        } else {
+          autoRollInterval = setInterval(roll, 1000);
+          autoButton.style.backgroundColor = 'green';
+        }
+      }
 
       function rollItem() {
         if (autoRollInterval) {
@@ -648,11 +612,11 @@
         inventoryPanel.innerHTML = inventory.map(item => `
     
 						
+						
 						<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
       ${item.name} (1/${item.rarity})
     </div>`).join('');
         setCookie('inventory', compress(JSON.stringify(inventory)), 365);
-        updateStats();
       }
 
       function toggleAutoRoll() {
@@ -833,9 +797,6 @@
         if (item.rarity >= 1000) {
           createConfetti(resultBox, item.color);
         }
-        luckyRolls++
-        setCookie('luckyRolls', luckyRolls, 365);
-        updateStats() // Fallback to the last item
       }
 
       function rollLuckyItem() {
@@ -851,52 +812,24 @@
         return luckyItems[luckyItems.length - 1];
       }
       startLuckyRollTimer();
-      let totalRolls = 0;
-      let itemsDeleted = 0;
-      let totalRarity = 0;
-      let luckyRolls = 0;
-      let autoRolls = 0;
-      let visits = 0;
-      window.onload = () => {
-        totalRolls = parseInt(getCookie('totalRolls')) || 0;
-        itemsDeleted = parseInt(getCookie('itemsDeleted')) || 0;
-        totalRarity = parseInt(getCookie('totalRarity')) || 0;
-        luckyRolls = parseInt(getCookie('luckyRolls')) || 0;
-        autoRolls = parseInt(getCookie('autoRolls')) || 0;
-        visits = parseInt(getCookie('visits')) || 0;
-        // Increment visits counter
-        visits++;
-        setCookie('visits', visits, 365);
-        updateStats();
-        updateInventory();
-      };
 
-      function updateStats() {
-        document.getElementById('totalRolls').innerText = totalRolls;
-        document.getElementById('itemsDeleted').innerText = itemsDeleted;
-        document.getElementById('totalRarity').innerText = totalRarity;
-        document.getElementById('luckyRolls').innerText = luckyRolls;
-        document.getElementById('autoRolls').innerText = autoRolls;
-        document.getElementById('visits').innerText = visits;
-      }
       function showNotification(itemName) {
-  if (!("Notification" in window)) {
-    // Browser doesn't support notifications
-    console.log("This browser does not support desktop notification");
-  } else if (Notification.permission === "granted") {
-    // If notification permission is already granted
-    new Notification(`You rolled a ${itemName}!`);
-  } else if (Notification.permission !== 'denied') {
-    // If notification permission is not denied, ask for permission
-    Notification.requestPermission().then(function (permission) {
-      // If the user accepts, show the notification
-      if (permission === "granted") {
-        new Notification(`You rolled a ${itemName}!`);
+        if (!("Notification" in window)) {
+          // Browser doesn't support notifications
+          console.log("This browser does not support desktop notification");
+        } else if (Notification.permission === "granted") {
+          // If notification permission is already granted
+          new Notification(`You rolled a ${itemName}!`);
+        } else if (Notification.permission !== 'denied') {
+          // If notification permission is not denied, ask for permission
+          Notification.requestPermission().then(function(permission) {
+            // If the user accepts, show the notification
+            if (permission === "granted") {
+              new Notification(`You rolled a ${itemName}!`);
+            }
+          });
+        }
       }
-    });
-  }
-}
-
     </script>
   </body>
 </html>
