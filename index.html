@@ -543,7 +543,7 @@
         updateInventory();
       };
 
-      function roll() {
+     function roll() {
     const rollButton = document.getElementById('rollButton');
     rollButton.disabled = true;
     const resultBox = document.getElementById('resultBox');
@@ -573,13 +573,7 @@
         resultBox.style.transform = 'scale(1)';
     }, 100);
     document.body.style.backgroundColor = item.color;
-    updateInventory();
-    totalRolls++;
-    totalRarity += item.rarity;
-    setCookie('totalRolls', totalRolls, 365);
-    setCookie('totalRarity', totalRarity, 365);
-    setCookie('itemsDeleted', itemsDeleted, 365);
-    updateStats();
+    updateInventory(); // Update the inventory regardless of debug mode
     if (item.rarity >= 1000) {
         createConfetti(resultBox, item.color);
 
@@ -617,14 +611,22 @@
 
 
 
+
       // Inside the toggleAutoRoll() function
-      function toggleAutoRoll() {
-        // Existing code...
-        if (autoRollInterval) {
-          setCookie('autoRolls', autoRolls, 365);
-          updateStats();
-        }
-      }
+     function toggleAutoRoll() {
+  const autoButton = document.getElementById('autoButton');
+  if (autoRollInterval) {
+    clearInterval(autoRollInterval);
+    autoRollInterval = null;
+    autoButton.style.backgroundColor = 'white';
+  } else {
+    autoRollInterval = setInterval(roll, 1000);
+    autoButton.style.backgroundColor = 'green';
+    // Save auto rolls to cookie when auto roll is started
+    setCookie('autoRolls', autoRolls, 365);
+    updateStats();
+  }
+}
 
       function rollItem() {
         if (autoRollInterval) {
