@@ -37,7 +37,7 @@
       }
 
       #rollButton,
-      #autoButton {
+      #autoButton{
         font-size: 2em;
         padding: 20px 40px;
         border-radius: 25px;
@@ -51,7 +51,29 @@
         transition: background-color 0.3s;
         transition: transform 0.1s
       }
+#luckyRollButton {
+  font-size: 2em;
+  padding: 20px 40px;
+  border-radius: 25px;
+  background-color: grey;
+  color: black;
+  border: 2px solid black;
+  cursor: not-allowed;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  transition: background-color 0.3s, transform 0.1s;
+}
 
+#luckyRollButton.active {
+  background-color: white;
+  cursor: pointer;
+}
+
+#luckyRollButton:hover.active {
+  background-color: var(--hover-background);
+  transform: scale(1.05);
+}
       #autoButton {
         margin-bottom: 10px;
       }
@@ -231,6 +253,7 @@
       <div style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
         <button id="rollButton">Roll</button>
         <button id="autoButton">Auto</button>
+        <button id="luckyRollButton" disabled>Lucky Roll</button>
         <div id="autoDeleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
           <span style="margin-right: 10px;">Automatically deleting</span>
           <select id="autoDeleteRarity" style="margin-right: 10px; padding: 5px; border: 1px solid #ccc; border-radius: 5px;">
@@ -432,47 +455,48 @@
       };
 
       function roll() {
-        const rollButton = document.getElementById('rollButton');
-        rollButton.disabled = true;
-        const resultBox = document.getElementById('resultBox');
-        const item = debugModeActive ? getDebugModeItem() : rollItem();
-        const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
-        let autoDeleted = false;
-        if (autoDeleteRarity !== 'none') {
-          const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
-          const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
-          if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
-            autoDeleted = true;
-            resultBox.innerHTML = `${item.name} (1/${item.rarity}) - Deleted`;
-          }
-        }
-        if (!debugModeActive) {
-          if (!autoDeleted) {
-            inventory.push(item);
-          }
-          resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
-        } else {
-          resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
-        }
-        resultBox.className = item.class;
-        resultBox.style.display = 'block';
-        resultBox.style.borderColor = item.color;
-        resultBox.style.transform = 'scale(1.5)';
-        setTimeout(() => {
-          resultBox.style.transform = 'scale(1)';
-        }, 100);
-        document.body.style.backgroundColor = item.color;
-        updateInventory();
-        if (!debugModeActive) {
-          setCookie('inventory', compress(JSON.stringify(inventory)), 365);
-        }
-        if (item.rarity >= 1000) {
-          createConfetti(resultBox, item.color);
-        }
-        setTimeout(() => {
-          rollButton.disabled = false;
-        }, 200);
-      }
+  const rollButton = document.getElementById('rollButton');
+  rollButton.disabled = true;
+  const resultBox = document.getElementById('resultBox');
+  const item = debugModeActive ? getDebugModeItem() : rollItem();
+  const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
+  let autoDeleted = false;
+  if (autoDeleteRarity !== 'none') {
+    const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
+    const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
+    if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
+      autoDeleted = true;
+      resultBox.innerHTML = `${item.name} (1/${item.rarity}) - Deleted`;
+    }
+  }
+  if (!debugModeActive) {
+    if (!autoDeleted) {
+      inventory.push(item);
+    }
+    resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
+  } else {
+    resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
+  }
+  resultBox.className = item.class;
+  resultBox.style.display = 'block';
+  resultBox.style.borderColor = item.color;
+  resultBox.style.transform = 'scale(1.5)';
+  setTimeout(() => {
+    resultBox.style.transform = 'scale(1)';
+  }, 100);
+  document.body.style.backgroundColor = item.color;
+  updateInventory();
+  if (!debugModeActive) {
+    setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+  }
+  if (item.rarity >= 1000) {
+    createConfetti(resultBox, item.color);
+  }
+  setTimeout(() => {
+    rollButton.disabled = false;
+  }, 200);
+}
+
 
       function rollItem() {
         const total = items.reduce((sum, item) => sum + 1000000 / item.rarity, 0);
@@ -486,15 +510,15 @@
       }
 
       function updateInventory() {
-        inventory.sort((a, b) => b.rarity - a.rarity);
-        const inventoryPanel = document.getElementById('inventoryPanel');
-        inventoryPanel.innerHTML = inventory.map(item => `
-      
-					
-					
-					<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">${item.name} (1/${item.rarity})</div>`).join('');
-        setCookie('inventory', compress(JSON.stringify(inventory)), 365);
-      }
+  inventory.sort((a, b) => b.rarity - a.rarity);
+  const inventoryPanel = document.getElementById('inventoryPanel');
+  inventoryPanel.innerHTML = inventory.map(item => `
+    <div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
+      ${item.name} (1/${item.rarity})
+    </div>`).join('');
+  setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+}
+
 
       function toggleAutoRoll() {
         const autoButton = document.getElementById('autoButton');
@@ -626,6 +650,75 @@
           class: "common"
         };
       }
+   document.getElementById('mainContent').innerHTML;
+
+const luckyRollButton = document.getElementById('luckyRollButton');
+let luckyRollTimer;
+
+function startLuckyRollTimer() {
+  let timeLeft = 120;
+  luckyRollButton.innerHTML = `Lucky Roll (${timeLeft}s)`;
+  luckyRollButton.classList.remove('active');
+
+  luckyRollTimer = setInterval(() => {
+    timeLeft--;
+    luckyRollButton.innerHTML = `Lucky Roll (${timeLeft}s)`;
+
+    if (timeLeft <= 0) {
+      clearInterval(luckyRollTimer);
+      luckyRollButton.innerHTML = 'Lucky Roll';
+      luckyRollButton.classList.add('active');
+      luckyRollButton.disabled = false;
+      luckyRollButton.style.cursor = 'pointer';
+    }
+  }, 1000);
+}
+
+luckyRollButton.addEventListener('click', () => {
+  if (!luckyRollButton.classList.contains('active')) return;
+
+  luckyRoll();
+  luckyRollButton.disabled = true;
+  luckyRollButton.style.cursor = 'not-allowed';
+  startLuckyRollTimer();
+});
+
+function luckyRoll() {
+  const resultBox = document.getElementById('resultBox');
+  const item = rollLuckyItem();
+  inventory.push(item);
+  resultBox.innerHTML = `${item.name} (1/${item.rarity}) - Lucky Roll!`;
+  resultBox.className = item.class;
+  resultBox.style.display = 'block';
+  resultBox.style.borderColor = item.color;
+  resultBox.style.transform = 'scale(1.5)';
+  setTimeout(() => {
+    resultBox.style.transform = 'scale(1)';
+  }, 100);
+  document.body.style.backgroundColor = item.color;
+  updateInventory();
+  setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+  if (item.rarity >= 1000) {
+    createConfetti(resultBox, item.color);
+  }
+}
+
+function rollLuckyItem() {
+  const luckyItems = items.filter(item => item.rarity >= 500); // Adjust this threshold as needed
+  const total = luckyItems.reduce((sum, item) => sum + 1000000 / item.rarity, 0);
+  let random = Math.random() * total;
+  for (let item of luckyItems) {
+    if (random < 1000000 / item.rarity) {
+      return item;
+    }
+    random -= 1000000 / item.rarity;
+  }
+  return luckyItems[luckyItems.length - 1]; // Fallback to the last item
+}
+
+startLuckyRollTimer();
+
+
     </script>
   </body>
 </html>
