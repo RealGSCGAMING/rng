@@ -260,10 +260,65 @@
           transform: translate(var(--confetti-x), var(--confetti-y)) rotate(var(--confetti-rotation));
         }
       }
+      /* Add animations for left, right, and top */
+.animate-left {
+  animation: slideLeft 2s ease-in-out;
+}
+
+.animate-right {
+  animation: slideRight 2s ease-in-out;
+}
+
+.animate-top {
+  animation: slideTop 2s ease-in-out;
+}
+
+.animate-down {
+  animation: slideDown 2s ease-out;
+}
+
+@keyframes slideLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slideDown {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
     </style>
   </head>
   <body>
-    <div id="rightside">
+    <div id="rightside" class="animate-left">
       <h2>Stats</h2>
       <div id="statsPanel">
         <p class="inventoryItem common">Total Rolls: <span id="totalRolls">0</span>
@@ -280,11 +335,11 @@
         </p>
       </div>
     </div>
-    <div id="mainContent">
+    <div id="mainContent" class="animate-top">
       <div id="title">Generic RNG Game</div>
       <p>Created by banana man and ChatGPT.</p>
       <div id="resultBox">Welcome! Have fun!</div>
-      <div style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;margin-right: 20px;margin-left: 20px;">
+      <div style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;margin-right: 20px;margin-left: 20px;" class="animate-down">
         <button id="rollButton">Roll</button>
         <button id="autoButton">Auto</button>
         <button id="luckyRollButton" disabled>Lucky Roll</button>
@@ -321,7 +376,7 @@
       </div>
       <p>This site uses a cookie to store your items.</p>
     </div>
-    <div id="leftside">
+    <div id="leftside" class="animate-right">
       <h2>Inventory</h2>
       <p>Items are sorted from rarest to least rare.</p>
       <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
