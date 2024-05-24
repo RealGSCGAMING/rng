@@ -582,38 +582,39 @@
     updateStats();
     if (item.rarity >= 1000) {
         createConfetti(resultBox, item.color);
+
+        // Browser notification
+        if (Notification.permission === "granted") {
+            const notification = new Notification('Generic RNG Game', {
+                body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
+                icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
+            });
+
+            notification.onclick = function () {
+                window.focus();
+                notification.close();
+            };
+        } else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    const notification = new Notification('Generic RNG Game', {
+                        body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
+                        icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
+                    });
+
+                    notification.onclick = function () {
+                        window.focus();
+                        notification.close();
+                    };
+                }
+            });
+        }
     }
     setTimeout(() => {
         rollButton.disabled = false;
     }, 200);
-
-    // Browser notification
-    if (Notification.permission === "granted") {
-        const notification = new Notification('Generic RNG Game', {
-            body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
-            icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
-        });
-
-        notification.onclick = function () {
-            window.focus();
-            notification.close();
-        };
-    } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(permission => {
-            if (permission === "granted") {
-                const notification = new Notification('Generic RNG Game', {
-                    body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
-                    icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
-                });
-
-                notification.onclick = function () {
-                    window.focus();
-                    notification.close();
-                };
-            }
-        });
-    }
 }
+
 
 
       // Inside the toggleAutoRoll() function
