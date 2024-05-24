@@ -98,27 +98,16 @@
       }
 
       #inventoryPanel {
-        position: relative;
-      }
-
-      #closeInventoryButton {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 1.5em;
-        cursor: pointer;
-        background: none;
-        border: none;
-      }
-
-      #leftside {
-        width: 150px;
-        height: 100%;
         background-color: white;
-        border-right: 2px solid #007BFF;
-        overflow-y: auto;
-        padding: 20px;
       }
+#leftside {
+  width: 150px;
+  height: 100%;
+  background-color: white;
+  border-right: 2px solid #007BFF;
+  overflow-y: auto;
+  padding: 20px;
+}
 
       #rightside {
         width: 300px;
@@ -127,8 +116,9 @@
         border-left: 2px solid #007BFF;
         overflow-y: auto;
         padding: 20px;
-        display: none;
       }
+
+      
 
       .inventoryItem {
         margin: 10px 0;
@@ -265,88 +255,82 @@
           transform: translate(var(--confetti-x), var(--confetti-y)) rotate(var(--confetti-rotation));
         }
       }
-
       /* Add animations for left, right, and top */
-      .animate-left {
-        animation: slideLeft 2s ease-in-out;
-      }
+.animate-left {
+  animation: slideLeft 2s ease-in-out;
+}
 
-      .animate-right {
-        animation: slideRight 2s ease-in-out;
-      }
+.animate-right {
+  animation: slideRight 2s ease-in-out;
+}
 
-      .animate-top {
-        animation: slideTop 2s ease-in-out;
-      }
+.animate-top {
+  animation: slideTop 2s ease-in-out;
+}
 
-      .animate-down {
-        animation: slideDown 2s ease-out;
-      }
+.animate-down {
+  animation: slideDown 2s ease-out;
+}
 
-      @keyframes slideLeft {
-        0% {
-          transform: translateX(-100%);
-        }
+@keyframes slideLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 
-        100% {
-          transform: translateX(0);
-        }
-      }
+@keyframes slideRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 
-      @keyframes slideRight {
-        0% {
-          transform: translateX(100%);
-        }
+@keyframes slideTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slideDown {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.changelogItem {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
 
-        100% {
-          transform: translateX(0);
-        }
-      }
-
-      @keyframes slideTop {
-        0% {
-          transform: translateY(-100%);
-          opacity: 0;
-        }
-
-        100% {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-
-      @keyframes slideDown {
-        0% {
-          transform: translateY(100%);
-          opacity: 0;
-        }
-
-        100% {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-
-      .changelogItem {
-        margin: 10px 0;
-        padding: 10px;
-        border-radius: 10px;
-        transition: background-color 0.3s;
-      }
-
-      .changelogItem:hover {
-        background-color: var(--hover-background);
-      }
+.changelogItem:hover {
+  background-color: var(--hover-background);
+}
     </style>
   </head>
   <body>
     <div id="leftside" class="animate-left">
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
-        <h2 style="margin: 0;">Changelog</h2>
-        <button id="closeChangelogButton" style="border: none; cursor: pointer; margin-left: 5px; margin-right:5px;">X</button>
-      </div>
-      <div id="changelogPanel"></div>
-    </div>
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+    <h2 style="margin: 0;">Changelog</h2>
+    <button id="closeChangelogButton" style="border: none; cursor: pointer; margin-left: 5px; margin-right:5px;">X</button>
+  </div>
+  <div id="changelogPanel"></div>
+</div>
+
     <div id="mainContent" class="animate-top">
       <div id="title">Generic RNG Game</div>
       <p>Created by banana man and ChatGPT.</p>
@@ -386,10 +370,9 @@
           </select> and below.
         </div>
       </div>
-      <button id="inventoryButton" style="font-size: 1em; padding: 10px 20px; border-radius: 25px; background-color: white; color: black; border: 2px solid black; cursor: pointer; margin-top: 10px; margin-left: 5px; margin-right: 5px; position: absolute; top: 10px; right: 10px;">Toggle Inventory</button>
       <p>This site uses a cookie to store your items.</p>
     </div>
-    <div id="rightside">
+    <div id="rightside" class="animate-right">
       <h2>Inventory</h2>
       <p>Items are sorted from rarest to least rare.</p>
       <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
@@ -556,80 +539,87 @@
         updateInventory();
       };
 
-      function roll() {
-        const rollButton = document.getElementById('rollButton');
-        rollButton.disabled = true;
-        const resultBox = document.getElementById('resultBox');
-        const item = debugModeActive ? getDebugModeItem() : rollItem();
-        const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
-        let autoDeleted = false;
-        if (autoDeleteRarity !== 'none') {
-          const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
-          const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
-          if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
+     function roll() {
+    const rollButton = document.getElementById('rollButton');
+    rollButton.disabled = true;
+    const resultBox = document.getElementById('resultBox');
+    const item = debugModeActive ? getDebugModeItem() : rollItem();
+    const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
+    let autoDeleted = false;
+    if (autoDeleteRarity !== 'none') {
+        const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
+        const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
+        if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
             autoDeleted = true;
             resultBox.innerHTML = `${item.name} (1/${item.rarity}) - Deleted`;
             itemsDeleted++;
-          }
         }
-        if (!debugModeActive && !autoDeleted) { // Check if neither in debug mode nor auto-deleted
-          inventory.push(item);
-          resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
-        } else if (debugModeActive) {
-          resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
-        }
-        resultBox.className = item.class;
-        resultBox.style.display = 'block';
-        resultBox.style.borderColor = item.color;
-        resultBox.style.transform = 'scale(1.5)';
-        setTimeout(() => {
-          resultBox.style.transform = 'scale(1)';
-        }, 100);
-        document.body.style.backgroundColor = item.color;
-        updateInventory(); // Update the inventory regardless of debug mode
-        if (item.rarity >= 1000) {
-          createConfetti(resultBox, item.color);
-          // Browser notification
-          if (Notification.permission === "granted") {
+    }
+    if (!debugModeActive && !autoDeleted) { // Check if neither in debug mode nor auto-deleted
+        inventory.push(item);
+        resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
+    } else if (debugModeActive) {
+        resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
+    }
+    resultBox.className = item.class;
+    resultBox.style.display = 'block';
+    resultBox.style.borderColor = item.color;
+    resultBox.style.transform = 'scale(1.5)';
+    setTimeout(() => {
+        resultBox.style.transform = 'scale(1)';
+    }, 100);
+    document.body.style.backgroundColor = item.color;
+    updateInventory(); // Update the inventory regardless of debug mode
+    if (item.rarity >= 1000) {
+        createConfetti(resultBox, item.color);
+
+        // Browser notification
+        if (Notification.permission === "granted") {
             const notification = new Notification('Generic RNG Game', {
-              body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
-              icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
+                body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
+                icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
             });
-            notification.onclick = function() {
-              window.focus();
-              notification.close();
+
+            notification.onclick = function () {
+                window.focus();
+                notification.close();
             };
-          } else if (Notification.permission !== "denied") {
+        } else if (Notification.permission !== "denied") {
             Notification.requestPermission().then(permission => {
-              if (permission === "granted") {
-                const notification = new Notification('Generic RNG Game', {
-                  body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
-                  icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
-                });
-                notification.onclick = function() {
-                  window.focus();
-                  notification.close();
-                };
-              }
+                if (permission === "granted") {
+                    const notification = new Notification('Generic RNG Game', {
+                        body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
+                        icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
+                    });
+
+                    notification.onclick = function () {
+                        window.focus();
+                        notification.close();
+                    };
+                }
             });
-          }
         }
-        setTimeout(() => {
-          rollButton.disabled = false;
-        }, 200);
-      }
+    }
+    setTimeout(() => {
+        rollButton.disabled = false;
+    }, 200);
+}
+
+
+
+
       // Inside the toggleAutoRoll() function
-      function toggleAutoRoll() {
-        const autoButton = document.getElementById('autoButton');
-        if (autoRollInterval) {
-          clearInterval(autoRollInterval);
-          autoRollInterval = null;
-          autoButton.style.backgroundColor = 'white';
-        } else {
-          autoRollInterval = setInterval(roll, 1000);
-          autoButton.style.backgroundColor = 'green';
-        }
-      }
+     function toggleAutoRoll() {
+  const autoButton = document.getElementById('autoButton');
+  if (autoRollInterval) {
+    clearInterval(autoRollInterval);
+    autoRollInterval = null;
+    autoButton.style.backgroundColor = 'white';
+  } else {
+    autoRollInterval = setInterval(roll, 1000);
+    autoButton.style.backgroundColor = 'green';
+  }
+}
 
       function rollItem() {
         if (autoRollInterval) {
@@ -650,7 +640,6 @@
         const inventoryPanel = document.getElementById('inventoryPanel');
         inventoryPanel.innerHTML = inventory.map(item => `
     
-						
 						
 						<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
       ${item.name} (1/${item.rarity})
@@ -851,70 +840,52 @@
         return luckyItems[luckyItems.length - 1];
       }
       startLuckyRollTimer();
+      
 
+      
       function showNotification(itemName) {
-        if (!("Notification" in window)) {
-          // Browser doesn't support notifications
-          console.log("This browser does not support desktop notification");
-        } else if (Notification.permission === "granted") {
-          // If notification permission is already granted
-          new Notification(`You rolled a ${itemName}!`);
-        } else if (Notification.permission !== 'denied') {
-          // If notification permission is not denied, ask for permission
-          Notification.requestPermission().then(function(permission) {
-            // If the user accepts, show the notification
-            if (permission === "granted") {
-              new Notification(`You rolled a ${itemName}!`);
-            }
-          });
-        }
+  if (!("Notification" in window)) {
+    // Browser doesn't support notifications
+    console.log("This browser does not support desktop notification");
+  } else if (Notification.permission === "granted") {
+    // If notification permission is already granted
+    new Notification(`You rolled a ${itemName}!`);
+  } else if (Notification.permission !== 'denied') {
+    // If notification permission is not denied, ask for permission
+    Notification.requestPermission().then(function (permission) {
+      // If the user accepts, show the notification
+      if (permission === "granted") {
+        new Notification(`You rolled a ${itemName}!`);
       }
-      async function fetchCommits() {
-        const response = await fetch('https://api.github.com/repos/RealGSCGAMING/rng/commits');
-        const commits = await response.json();
-        displayCommits(commits);
-      }
+    });
+  }
+}
+async function fetchCommits() {
+  const response = await fetch('https://api.github.com/repos/RealGSCGAMING/rng/commits');
+  const commits = await response.json();
+  displayCommits(commits);
+}
 
-      function displayCommits(commits) {
-        const changelogPanel = document.getElementById('changelogPanel');
-        changelogPanel.innerHTML = commits.map(commit => `
-    
-						<div class="inventoryItem common">
-							<strong>${new Date(commit.commit.author.date).toLocaleString()}</strong>
-							<br>
+function displayCommits(commits) {
+  const changelogPanel = document.getElementById('changelogPanel');
+  changelogPanel.innerHTML = commits.map(commit => `
+    <div class="inventoryItem common">
+      <strong>${new Date(commit.commit.author.date).toLocaleString()}</strong><br>
       ${commit.commit.message}
-    
-							</div>
+    </div>
   `).join('');
-      }
-      window.onload = () => {
-        updateInventory();
-        fetchCommits(); // Fetch and display the commits when the page loads
-      };
-      document.getElementById('closeChangelogButton').addEventListener('click', () => {
-        document.getElementById('leftside').style.display = 'none';
-        document.getElementById('mainContent').style.width = '100%'; // Adjust the width of the main content panel
-      });
-      // Add event listener for inventory button
-      document.getElementById('inventoryButton').addEventListener('click', toggleInventory);
-      // Function to toggle inventory visibility
-      function toggleInventory() {
-        const inventoryPanel = document.getElementById('rightside');
-        if (inventoryPanel.style.display === 'none') {
-          inventoryPanel.style.display = 'block';
-        } else {
-          inventoryPanel.style.display = 'none';
-        }
-      }
-      // Add event listener for close inventory button
-      document.getElementById('closeInventoryButton').addEventListener('click', () => {
-        document.getElementById('rightside').style.display = 'none';
-      });
-      // Update window onload function to remove previous onload handler
-      window.onload = () => {
-        updateInventory();
-        fetchCommits(); // Fetch and display the commits when the page loads
-      };
+}
+
+window.onload = () => {
+  updateInventory();
+  fetchCommits();  // Fetch and display the commits when the page loads
+};
+document.getElementById('closeChangelogButton').addEventListener('click', () => {
+  document.getElementById('leftside').style.display = 'none';
+  document.getElementById('mainContent').style.width = '100%'; // Adjust the width of the main content panel
+});
+
+
     </script>
   </body>
 </html>
