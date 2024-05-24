@@ -536,13 +536,15 @@
       function toggleAutoRoll() {
         // Existing code...
         if (autoRollInterval) {
-          autoRolls++;
           setCookie('autoRolls', autoRolls, 365);
           updateStats();
         }
       }
 
       function rollItem() {
+        if (autoRollInterval) {
+          autoRolls++;
+        }
         const total = items.reduce((sum, item) => sum + 1000000 / item.rarity, 0);
         let random = Math.random() * total;
         for (let item of items) {
@@ -558,6 +560,7 @@
         const inventoryPanel = document.getElementById('inventoryPanel');
         inventoryPanel.innerHTML = inventory.map(item => `
     
+						
 						<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
       ${item.name} (1/${item.rarity})
     </div>`).join('');
@@ -743,6 +746,9 @@
         if (item.rarity >= 1000) {
           createConfetti(resultBox, item.color);
         }
+        luckyRolls++
+        setCookie('luckyRolls', luckyRolls, 365);
+        updateStats() // Fallback to the last item
       }
 
       function rollLuckyItem() {
@@ -755,7 +761,7 @@
           }
           random -= 1000000 / item.rarity;
         }
-        return luckyItems[luckyItems.length - 1]; // Fallback to the last item
+        return luckyItems[luckyItems.length - 1];
       }
       startLuckyRollTimer();
       let totalRolls = 0;
