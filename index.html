@@ -544,53 +544,78 @@
       };
 
       function roll() {
-        const rollButton = document.getElementById('rollButton');
-        rollButton.disabled = true;
-        const resultBox = document.getElementById('resultBox');
-        const item = debugModeActive ? getDebugModeItem() : rollItem();
-        const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
-        let autoDeleted = false;
-        if (autoDeleteRarity !== 'none') {
-          const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
-          const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
-          if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
+    const rollButton = document.getElementById('rollButton');
+    rollButton.disabled = true;
+    const resultBox = document.getElementById('resultBox');
+    const item = debugModeActive ? getDebugModeItem() : rollItem();
+    const autoDeleteRarity = document.getElementById('autoDeleteRarity').value;
+    let autoDeleted = false;
+    if (autoDeleteRarity !== 'none') {
+        const autoDeleteRarityIndex = items.findIndex(i => i.class === autoDeleteRarity);
+        const rolledItemRarityIndex = items.findIndex(i => i.class === item.class);
+        if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
             autoDeleted = true;
             resultBox.innerHTML = `${item.name} (1/${item.rarity}) - Deleted`;
             itemsDeleted++;
-          }
         }
-        if (!debugModeActive && !autoDeleted) { // Check if neither in debug mode nor auto-deleted
-          inventory.push(item);
-          resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
-        } else if (debugModeActive) {
-          resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
-        }
-        resultBox.className = item.class;
-        resultBox.style.display = 'block';
-        resultBox.style.borderColor = item.color;
-        resultBox.style.transform = 'scale(1.5)';
-        setTimeout(() => {
-          resultBox.style.transform = 'scale(1)';
-        }, 100);
-        document.body.style.backgroundColor = item.color;
-        updateInventory();
-        totalRolls++;
-        totalRarity += item.rarity;
-        setCookie('totalRolls', totalRolls, 365);
-        setCookie('totalRarity', totalRarity, 365);
-        setCookie('itemsDeleted', itemsDeleted, 365);
-        updateStats();
-        if (item.rarity >= 1000) {
-          createConfetti(resultBox, item.color);
-        }
-        if (item.rarity >= 1000) {
-  showNotification(item.name);
+    }
+    if (!debugModeActive && !autoDeleted) { // Check if neither in debug mode nor auto-deleted
+        inventory.push(item);
+        resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
+    } else if (debugModeActive) {
+        resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
+    }
+    resultBox.className = item.class;
+    resultBox.style.display = 'block';
+    resultBox.style.borderColor = item.color;
+    resultBox.style.transform = 'scale(1.5)';
+    setTimeout(() => {
+        resultBox.style.transform = 'scale(1)';
+    }, 100);
+    document.body.style.backgroundColor = item.color;
+    updateInventory();
+    totalRolls++;
+    totalRarity += item.rarity;
+    setCookie('totalRolls', totalRolls, 365);
+    setCookie('totalRarity', totalRarity, 365);
+    setCookie('itemsDeleted', itemsDeleted, 365);
+    updateStats();
+    if (item.rarity >= 1000) {
+        createConfetti(resultBox, item.color);
+    }
+    setTimeout(() => {
+        rollButton.disabled = false;
+    }, 200);
+
+    // Browser notification
+    if (Notification.permission === "granted") {
+        const notification = new Notification('Generic RNG Game', {
+            body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
+            icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
+        });
+
+        notification.onclick = function () {
+            window.focus();
+            notification.close();
+        };
+    } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                const notification = new Notification('Generic RNG Game', {
+                    body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
+                    icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
+                });
+
+                notification.onclick = function () {
+                    window.focus();
+                    notification.close();
+                };
+            }
+        });
+    }
 }
 
-        setTimeout(() => {
-          rollButton.disabled = false;
-        }, 200);
-      }
+
       // Inside the toggleAutoRoll() function
       function toggleAutoRoll() {
         // Existing code...
