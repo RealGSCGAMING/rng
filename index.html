@@ -583,6 +583,10 @@
         if (item.rarity >= 1000) {
           createConfetti(resultBox, item.color);
         }
+        if (item.rarity >= 1000) {
+  showNotification(item.name);
+}
+
         setTimeout(() => {
           rollButton.disabled = false;
         }, 200);
@@ -847,6 +851,24 @@
         document.getElementById('autoRolls').innerText = autoRolls;
         document.getElementById('visits').innerText = visits;
       }
+      function showNotification(itemName) {
+  if (!("Notification" in window)) {
+    // Browser doesn't support notifications
+    console.log("This browser does not support desktop notification");
+  } else if (Notification.permission === "granted") {
+    // If notification permission is already granted
+    new Notification(`You rolled a ${itemName}!`);
+  } else if (Notification.permission !== 'denied') {
+    // If notification permission is not denied, ask for permission
+    Notification.requestPermission().then(function (permission) {
+      // If the user accepts, show the notification
+      if (permission === "granted") {
+        new Notification(`You rolled a ${itemName}!`);
+      }
+    });
+  }
+}
+
     </script>
   </body>
 </html>
