@@ -558,13 +558,21 @@
       function updateInventory() {
         inventory.sort((a, b) => b.rarity - a.rarity);
         const inventoryPanel = document.getElementById('inventoryPanel');
-        inventoryPanel.innerHTML = inventory.map(item => `
-    
-						
+        inventoryPanel.innerHTML = '';
+        // Update inventory display and save cookies
+        inventory.forEach(item => {
+          const rarityCookieName = `inventory_${item.class}`;
+          const rarityCookieValue = (parseInt(getCookie(rarityCookieName)) || 0) + 1;
+          setCookie(rarityCookieName, rarityCookieValue, 365);
+          inventoryPanel.innerHTML += `
+            
 						<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
-      ${item.name} (1/${item.rarity})
-    </div>`).join('');
-        setCookie('inventory', compress(JSON.stringify(inventory)), 365);
+                ${item.name} (1/${item.rarity})
+            </div>`;
+        });
+        // Update total rarity
+        totalRarity = inventory.reduce((total, item) => total + item.rarity, 0);
+        setCookie('totalRarity', totalRarity, 365);
         updateStats();
       }
 
@@ -705,7 +713,7 @@
       let luckyRollTimer;
 
       function startLuckyRollTimer() {
-        let timeLeft = 120;
+        let timeLeft = 1;
         luckyRollButton.innerHTML = `Lucky Roll (${timeLeft}s)`;
         luckyRollButton.classList.remove('active');
         luckyRollTimer = setInterval(() => {
@@ -791,6 +799,14 @@
         document.getElementById('luckyRolls').innerText = luckyRolls;
         document.getElementById('autoRolls').innerText = autoRolls;
         document.getElementById('visits').innerText = visits;
+      }
+
+      function getRarityValue(rarity) {
+        return items.find(item => item.class === rarity).rarity;
+      }
+
+      function getColorFromRarity(rarity) {
+        return items.find(item => item.class === rarity).color;
       }
     </script>
   </body>
