@@ -269,7 +269,7 @@
          animation: slideTop 2s ease-in-out;
        }
 
-       .animate-down {
+       .animate-bottom {
          animation: slideDown 2s ease-out;
        }
 
@@ -321,15 +321,15 @@
    <body>
      <div id="rightside" class="animate-left">
        <h2>Changelog</h2>
-       <button id="closeChangelogButton" style="border: 1px solid black; border-radius: 50%; width: 20px; height: 20px; background-color: grey; color: black; position: absolute; top: 10px; left: 10px; cursor: pointer;">X</button>
+       <button id="closeChangelogButton" style="border: 1px solid black; border-radius: 50%; width: 25px; height: 25px; background-color: #de857e; color: black; position: absolute; top: 10px; left: 10px; cursor: pointer;">X</button>
        <div id="changelogPanel" style="text-align: left; padding: 10px; overflow-y: auto;"> Loading... </div>
      </div>
      <div id="mainContent" class="animate-top">
-       <button id="inventoryButton" style="font-size: 1em; padding: 10px 20px; border-radius: 25px; background-color: white; color: black; border: 2px solid black; cursor: pointer; margin-top: 10px; margin-left: 5px; margin-right: 5px; position: absolute; top: 10px; right: 10px;">Inventory</button>
+       <button id="inventoryButton" style="font-size: 1em; padding: 10px 20px; border-radius: 25px; background-color: white; color: black; border: 2px solid black; cursor: pointer; margin-top: 10px; margin-left: 5px; margin-right: 5px; position: absolute; top: 10px; right: 10px;">Toggle Inventory</button>
        <div id="title">Generic RNG Game</div>
        <p>Created by banana man and ChatGPT.</p>
        <div id="resultBox">Welcome! Have fun!</div>
-       <div style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;margin-right: 20px;margin-left: 20px;" class="animate-down">
+       <div style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;margin-right: 20px;margin-left: 20px;" class="animate-bottom">
          <button id="rollButton">Roll</button>
          <button id="autoButton">Auto</button>
          <button id="luckyRollButton" disabled>Lucky Roll</button>
@@ -366,7 +366,7 @@
        </div>
        <p>This site uses a cookie to store your items.</p>
      </div>
-     <div id="leftside" class="animate-down">
+     <div id="leftside" class="animate-right" style='display: none;'>
        <h2>Inventory</h2>
        <p>Items are sorted from rarest to least rare.</p>
        <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
@@ -626,6 +626,8 @@
 						
 						
 						
+						
+						
 						<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
       ${item.name} (1/${item.rarity})
     </div>`).join('');
@@ -737,7 +739,7 @@
          const debugRectangle = document.createElement('div');
          debugRectangle.id = 'debugRectangle';
          debugRectangle.style.width = '200px';
-         debugRectangle.style.height = '50px';
+         debugRectangle.style.height = '25px';
          debugRectangle.style.border = '2px solid black';
          debugRectangle.style.backgroundColor = 'white';
          debugRectangle.style.padding = '20px';
@@ -857,6 +859,8 @@
              timeZoneName: 'short'
            });
            return `
+						
+						
 						
 						
 						<div class="inventoryItem common" style="margin-bottom: 10px;">
