@@ -403,6 +403,16 @@
      </div>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
      <script>
+       function isMobileDevice() {
+         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+       }
+
+       function redirectToMobileSite() {
+         if (isMobileDevice()) {
+           window.location.href = "https://your-mobile-site-url.com";
+         }
+       }
+       redirectToMobileSite();
        const items = [{
          name: "Common",
          rarity: 2,
@@ -622,6 +632,7 @@
          const inventoryPanel = document.getElementById('inventoryPanel');
          inventoryPanel.innerHTML = inventory.map(item => `
     
+						
 						
 						
 						
@@ -859,6 +870,7 @@
              timeZoneName: 'short'
            });
            return `
+						
 						
 						
 						
