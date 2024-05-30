@@ -121,12 +121,6 @@
          padding: 20px;
        }
 
-       #statsPanel {
-         margin-top: 20px;
-         <p class="inventoryItem common">Total Rolls:
-           <span id="totalRolls">0</span> </p> <p class="inventoryItem common">Items Deleted: <span id="itemsDeleted">0</span> </p> <p class="inventoryItem common">Total Rarity: <span id="totalRarity">0</span> </p>
-       }
-
        .inventoryItem {
          margin: 10px 0;
          padding: 10px;
@@ -263,7 +257,6 @@
          }
        }
 
-       /* Add animations for left, right, and top */
        .animate-left {
          animation: slideLeft 2s ease-in-out;
        }
@@ -553,13 +546,12 @@
            if (rolledItemRarityIndex <= autoDeleteRarityIndex) {
              autoDeleted = true;
              resultBox.innerHTML = `${item.name} (1/${item.rarity}) - Deleted`;
-             itemsDeleted++;
            }
          }
-         if (!debugModeActive && !autoDeleted) { // Check if neither in debug mode nor auto-deleted
+         if (!debugModeActive && !autoDeleted) {
            inventory.push(item);
            resultBox.innerHTML = `${item.name} (1/${item.rarity})`;
-           updateInventory(); // Call updateInventory() after adding an item
+           updateInventory();
          } else if (debugModeActive) {
            resultBox.innerHTML = `${item.name} (1/${item.rarity}) [Debug Mode]`;
          }
@@ -569,12 +561,11 @@
          resultBox.style.transform = 'scale(1.5)';
          setTimeout(() => {
            resultBox.style.transform = 'scale(1)';
-           rollButton.disabled = false; // Re-enable the roll button after the animation
+           rollButton.disabled = false;
          }, 100);
          document.body.style.backgroundColor = item.color;
          if (item.rarity >= 1000) {
            createConfetti(resultBox, item.color);
-           // Browser notification
            if (Notification.permission === "granted") {
              const notification = new Notification('Generic RNG Game', {
                body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
@@ -609,18 +600,13 @@
            autoButton.style.backgroundColor = 'white';
          } else {
            autoRollInterval = setInterval(() => {
-             roll(); // Call roll function inside setInterval
+             roll();
            }, 1000);
            autoButton.style.backgroundColor = 'green';
-           // Save auto rolls to cookie when auto roll is started
-           setCookie('autoRolls', autoRolls, 365);
          }
        }
 
        function rollItem() {
-         if (autoRollInterval) {
-           autoRolls++;
-         }
          const total = items.reduce((sum, item) => sum + 1000000 / item.rarity, 0);
          let random = Math.random() * total;
          for (let item of items) {
@@ -636,6 +622,7 @@
          const inventoryPanel = document.getElementById('inventoryPanel');
          inventoryPanel.innerHTML = inventory.map(item => `
     
+						
 						
 						
 						<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
@@ -822,12 +809,10 @@
          if (item.rarity >= 1000) {
            createConfetti(resultBox, item.color);
          }
-         luckyRolls++
-         setCookie('luckyRolls', luckyRolls, 365); // Fallback to the last item
        }
 
        function rollLuckyItem() {
-         const luckyItems = items.filter(item => item.rarity >= 500); // Adjust this threshold as needed
+         const luckyItems = items.filter(item => item.rarity >= 500);
          const total = luckyItems.reduce((sum, item) => sum + 1000000 / item.rarity, 0);
          let random = Math.random() * total;
          for (let item of luckyItems) {
@@ -845,51 +830,24 @@
        let luckyRolls = 0;
        let autoRolls = 0;
        let visits = 0;
-       window.onload = () => {
-         totalRolls = parseInt(getCookie('totalRolls')) || 0;
-         itemsDeleted = parseInt(getCookie('itemsDeleted')) || 0;
-         totalRarity = parseInt(getCookie('totalRarity')) || 0;
-         luckyRolls = parseInt(getCookie('luckyRolls')) || 0;
-         autoRolls = parseInt(getCookie('autoRolls')) || 0;
-         visits = parseInt(getCookie('visits')) || 0;
-         // Increment visits counter
-         visits++;
-         setCookie('visits', visits, 365);
-         updateInventory();
-       };
-
-       function updateStats() {
-         document.getElementById('totalRolls').innerText = totalRolls;
-         document.getElementById('itemsDeleted').innerText = itemsDeleted;
-         document.getElementById('totalRarity').innerText = totalRarity;
-         document.getElementById('luckyRolls').innerText = luckyRolls;
-         document.getElementById('autoRolls').innerText = autoRolls;
-         document.getElementById('visits').innerText = visits;
-       }
 
        function showNotification(itemName) {
          if (!("Notification" in window)) {
-           // Browser doesn't support notifications
            console.log("This browser does not support desktop notification");
          } else if (Notification.permission === "granted") {
-           // If notification permission is already granted
            new Notification(`You rolled a ${itemName}!`);
          } else if (Notification.permission !== 'denied') {
-           // If notification permission is not denied, ask for permission
            Notification.requestPermission().then(function(permission) {
-             // If the user accepts, show the notification
              if (permission === "granted") {
                new Notification(`You rolled a ${itemName}!`);
              }
            });
          }
        }
-       // Add event listener to close Changelog menu
        document.getElementById('closeChangelogButton').addEventListener('click', () => {
          document.getElementById('rightside').classList.remove('animate-left');
          document.getElementById('rightside').style.right = '-100%';
        });
-       // Fetch commit information from GitHub repository
        fetch('https://api.github.com/repos/RealGSCGAMING/rng/commits').then(response => response.json()).then(commits => {
          const changelogPanel = document.getElementById('changelogPanel');
          changelogPanel.innerHTML = commits.map(commit => {
@@ -898,6 +856,7 @@
              timeZoneName: 'short'
            });
            return `
+						
 						<div class="inventoryItem common" style="margin-bottom: 10px;">
 							<p>${formattedDate}</p>
 							<p>${commit.commit.message}</p>
@@ -908,13 +867,11 @@
          const changelogPanel = document.getElementById('changelogPanel');
          changelogPanel.innerHTML = 'Error fetching commits';
        });
-       // Remove Stats-related functions and cookie handling
        document.getElementById('closeChangelogButton').addEventListener('click', () => {
          document.getElementById('rightside').style.display = 'none'
        });
-       // Add event listener for inventory button
        document.getElementById('inventoryButton').addEventListener('click', toggleInventory);
-       // Function to toggle inventory visibility
+
        function toggleInventory() {
          const inventoryPanel = document.getElementById('leftside');
          if (inventoryPanel.style.display === 'none') {
@@ -924,14 +881,12 @@
            inventoryPanel.style.display = 'none';
          }
        }
-       // Add event listener for close inventory button
        document.getElementById('closeInventoryButton').addEventListener('click', () => {
          document.getElementById('leftside').style.display = 'none';
        });
-       // Update window onload function to remove previous onload handler
        window.onload = () => {
          updateInventory();
-         fetchCommits(); // Fetch and display the commits when the page loads
+         fetchCommits();
        };
      </script>
    </body>
