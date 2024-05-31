@@ -292,7 +292,7 @@
        <div id="title">Generic RNG Game</div>
        <p>Created by banana man and ChatGPT.</p>
        <div id="resultBox">Welcome! Have fun!</div>
-       <div style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;margin-right: 20px;margin-left: 20px;" class="animate-bottom">
+       <div id='buttons' style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;margin-right: 20px;margin-left: 20px;" class="animate-bottom">
          <button id="rollButton">Roll</button>
          <button id="autoButton">Auto</button>
          <div id="autoDeleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;">
@@ -329,6 +329,7 @@
        <p>This site uses a cookie to store your items.</p>
      </div>
      <div id="leftside" class="animate-right" style='display: none;'>
+       <button id="inventoryButton2" style="font-size: 1em; padding: 10px 20px; border-radius: 25px; background-color: white; color: black; border: 2px solid black; cursor: pointer; margin-top: 10px; margin-left: 5px; margin-right: 5px; position: absolute; top: 10px; right: 10px;">Toggle Inventory</button>
        <h2>Inventory</h2>
        <p>Items are sorted from rarest to least rare.</p>
        <div id="deleteMenu" style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white;margin-top:20px;">
@@ -591,6 +592,7 @@
 						
 						
 						
+						
 						<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
       ${item.name} (1/${item.rarity})
     </div>`).join('');
@@ -762,6 +764,7 @@
 						
 						
 						
+						
 						<div class="inventoryItem common" style="margin-bottom: 10px;">
 							<p>${formattedDate}</p>
 							<p>${commit.commit.message}</p>
@@ -773,14 +776,21 @@
          changelogPanel.innerHTML = 'Error fetching commits';
        });
        document.getElementById('inventoryButton').addEventListener('click', toggleInventory);
+       document.getElementById('inventoryButton2').addEventListener('click', toggleInventory);
 
        function toggleInventory() {
          const inventoryPanel = document.getElementById('leftside');
+         const mainContent = document.getElementById('mainContent');
+         const buttons = document.getElementById('buttons')
          if (inventoryPanel.style.display === 'none') {
            inventoryPanel.className = 'none'
+           mainContent.className = 'none'
+           buttons.className = 'none'
            inventoryPanel.style.display = 'block';
+           mainContent.style.display = 'none';
          } else {
            inventoryPanel.style.display = 'none';
+           mainContent.style.display = 'flex';
          }
        }
        document.getElementById('closeInventoryButton').addEventListener('click', () => {
