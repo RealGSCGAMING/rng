@@ -365,6 +365,13 @@
          </div>
        </div>
        <p>This site uses a cookie to store your items.</p>
+    <div>
+      <span>Roll Notifications:</span>
+      <label class="switch">
+        <input type="checkbox" id="notificationToggle" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
      </div>
      <div id="leftside" class="animate-right" style='display: none;'>
        <h2>Inventory</h2>
@@ -400,6 +407,9 @@
          <button id="confirmDelete" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 10px;">Confirm</button>
        </div>
        <div id="inventoryPanel"></div>
+       <button id="resetSaveButton" class="inventoryItem" style="background-color: red; color: white;">
+      Reset Save
+    </button>
      </div>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
      <script>
@@ -576,7 +586,7 @@
          document.body.style.backgroundColor = item.color;
          if (item.rarity >= 1000) {
            createConfetti(resultBox, item.color);
-           if (Notification.permission === "granted") {
+           if (Notification.permission === "granted" && enableNotifications) {
              const notification = new Notification('Generic RNG Game', {
                body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
                icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
@@ -906,6 +916,21 @@
          updateInventory();
          fetchCommits();
        };
+       document.getElementById('resetSaveButton').addEventListener('click', () => {
+      document.cookie = 'inventory=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      location.reload();
+    });
+    document.getElementById('notificationToggle').addEventListener('change', function () {
+      if (this.checked) {
+        // Enable notifications
+        enableNotifications = true;
+      } else {
+        // Disable notifications
+        enableNotifications = false;
+      }
+    });
+
+    let enableNotifications = true;
      </script>
    </body>
  </html>
