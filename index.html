@@ -365,13 +365,13 @@
          </div>
        </div>
        <p>This site uses a cookie to store your items.</p>
-    <div>
-      <span>Roll Notifications:</span>
-      <label class="switch">
-        <input type="checkbox" id="notificationToggle" checked>
-        <span class="slider"></span>
-      </label>
-    </div>
+       <div>
+         <span>Roll Notifications:</span>
+         <label class="switch">
+           <input type="checkbox" id="notificationToggle" checked>
+           <span class="slider"></span>
+         </label>
+       </div>
      </div>
      <div id="leftside" class="animate-right" style='display: none;'>
        <h2>Inventory</h2>
@@ -407,9 +407,7 @@
          <button id="confirmDelete" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 10px;">Confirm</button>
        </div>
        <div id="inventoryPanel"></div>
-       <button id="resetSaveButton" class="inventoryItem" style="background-color: red; color: white;">
-      Reset Save
-    </button>
+       <button id="resetSaveButton" class="inventoryItem" style="background-color: red; color: white;"> Reset Save </button>
      </div>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
      <script>
@@ -649,7 +647,10 @@
 						
 						
 						
-						<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
+						
+							
+							
+							<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
       ${item.name} (1/${item.rarity})
     </div>`).join('');
          setCookie('inventory', compress(JSON.stringify(inventory)), 365);
@@ -749,7 +750,7 @@
        });
 
        function promptDebugModePassword() {
-         const password = prompt('Enter password to access Debug Mode:');
+         const password = prompt('enter password');
          if (password === 'solsrngsucks') {
            activateDebugMode();
          }
@@ -885,10 +886,13 @@
 						
 						
 						
-						<div class="inventoryItem common" style="margin-bottom: 10px;">
-							<p>${formattedDate}</p>
-							<p>${commit.commit.message}</p>
-						</div>`;
+						
+							
+							
+							<div class="inventoryItem common" style="margin-bottom: 10px;">
+								<p>${formattedDate}</p>
+								<p>${commit.commit.message}</p>
+							</div>`;
          }).join('');
        }).catch(error => {
          console.error('Error fetching commits:', error);
@@ -917,20 +921,20 @@
          fetchCommits();
        };
        document.getElementById('resetSaveButton').addEventListener('click', () => {
-      document.cookie = 'inventory=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      location.reload();
-    });
-    document.getElementById('notificationToggle').addEventListener('change', function () {
-      if (this.checked) {
-        // Enable notifications
-        enableNotifications = true;
-      } else {
-        // Disable notifications
-        enableNotifications = false;
-      }
-    });
-
-    let enableNotifications = true;
+         document.cookie = 'inventory=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+         location.reload();
+       });
+       document.getElementById('notificationToggle').addEventListener('change', function() {
+         if (this.checked) {
+           // Enable notifications
+           enableNotifications = true;
+         }
+         if (!this.checked) {
+           // Disable notifications
+           enableNotifications = false;
+         }
+       });
+       let enableNotifications = true;
      </script>
    </body>
  </html>
