@@ -325,8 +325,6 @@
      <div id="mainContent" class="animate-top">
        <button id="inventoryButton" style="font-size: 1em; padding: 10px 20px; border-radius: 25px; background-color: white; color: black; border: 2px solid black; cursor: pointer; margin-top: 10px; margin-left: 5px; margin-right: 5px; position: absolute; top: 10px; right: 10px;">Toggle Inventory</button>
        <div id="title">Generic RNG Game</div>
-       <p>Created by banana man</p>
-       <p>This project has been finished. There will be no more major updates.</p>
        <div id="resultBox">Use the panel to roll.</div>
        <div style="padding: 10px; border: 2px solid black; border-radius: 10px; background-color: white; margin-top: 20px;margin-right: 20px;margin-left: 20px;" class="animate-bottom">
          <button id="rollButton">Roll</button>
@@ -364,13 +362,7 @@
          </div>
        </div>
        <p>This site uses a cookie to store your items.</p>
-       <div>
-         <span>Roll Notifications:</span>
-         <label class="switch">
-           <input type="checkbox" id="notificationToggle" checked>
-           <span class="slider"></span>
-         </label>
-       </div>
+       <div></div>
      </div>
      <div id="leftside" class="animate-right" style='display: none;'>
        <h2>Inventory</h2>
@@ -406,8 +398,8 @@
          <button id="confirmDelete" style="background-color: red; color: white; border: none; border-radius: 5px; padding: 5px 10px;">Confirm</button>
        </div>
        <div id="inventoryPanel"></div>
-       <button id="resetSaveButton" class="inventoryItem" style="background-color: red; color: white;"> Reset Save </button>
      </div>
+     <a href="https://realgscgaming.github.io/" style="margin: 5px; color: black; position: fixed; right: 0%; bottom: 0%;">created by gscgaming</a>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
      <script>
        function isMobileDevice() {
@@ -583,7 +575,7 @@
          document.body.style.backgroundColor = item.color;
          if (item.rarity >= 1000) {
            createConfetti(resultBox, item.color);
-           if (Notification.permission === "granted" && enableNotifications) {
+           if (Notification.permission === "granted") {
              const notification = new Notification('Generic RNG Game', {
                body: `You rolled a ${item.name}! (1/${item.rarity}) Click here to view.`,
                icon: 'https://freepngimg.com/thumb/dice/2-2-dice-png-image-thumb.png'
@@ -650,7 +642,9 @@
 							
 							
 							
-							<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
+							
+						
+						<div class="inventoryItem ${item.class}" style="border-color: ${item.color}; --hover-background: ${brighterColor(item.color)};">
       ${item.name} (1/${item.rarity})
     </div>`).join('');
          setCookie('inventory', compress(JSON.stringify(inventory)), 365);
@@ -890,10 +884,12 @@
 							
 							
 							
-							<div class="inventoryItem common" style="margin-bottom: 10px;">
-								<p>${formattedDate}</p>
-								<p>${commit.commit.message}</p>
-							</div>`;
+							
+						
+						<div class="inventoryItem common" style="margin-bottom: 10px;">
+							<p>${formattedDate}</p>
+							<p>${commit.commit.message}</p>
+						</div>`;
          }).join('');
        }).catch(error => {
          console.error('Error fetching commits:', error);
@@ -921,21 +917,6 @@
          updateInventory();
          fetchCommits();
        };
-       document.getElementById('resetSaveButton').addEventListener('click', () => {
-         document.cookie = 'inventory=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-         location.reload();
-       });
-       document.getElementById('notificationToggle').addEventListener('change', function() {
-         if (this.checked) {
-           // Enable notifications
-           enableNotifications = true;
-         }
-         if (!this.checked) {
-           // Disable notifications
-           enableNotifications = false;
-         }
-       });
-       let enableNotifications = true;
      </script>
    </body>
  </html>
